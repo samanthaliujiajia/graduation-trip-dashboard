@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graduation Trip · California 2026</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --surface2: #f1efeb;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #a0a09c;
+    --accent: #4a6fa5;
+    --accent-bg: #e8eef7;
+    --green: #3b6d11;
+    --green-bg: #eaf3de;
+    --amber: #854f0b;
+    --amber-bg: #faeeda;
+    --red: #a32d2d;
+    --red-bg: #fcebeb;
+    --purple: #534ab7;
+    --purple-bg: #eeedfe;
+    --teal: #0f6e56;
+    --teal-bg: #e1f5ee;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --surface: #242422;
+      --surface2: #2e2e2b;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+      --text: #f0efe9;
+      --text2: #a0a09c;
+      --text3: #6b6b67;
+      --accent: #7fa8d8;
+      --accent-bg: #1a2535;
+      --green: #97c459;
+      --green-bg: #173404;
+      --amber: #ef9f27;
+      --amber-bg: #412402;
+      --red: #f09595;
+      --red-bg: #501313;
+      --purple: #afa9ec;
+      --purple-bg: #26215c;
+      --teal: #5dcaa5;
+      --teal-bg: #04342c;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .layout { display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--surface);
+    border-right: 0.5px solid var(--border);
+    padding: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .sidebar-header {
+    padding: 20px 16px 12px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .sidebar-header h1 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+  .sidebar-header p {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .trip-dates {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .nav-section {
+    padding: 12px 8px 4px;
+  }
+  .nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13px;
+    transition: background 0.1s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: var(--accent-bg); color: var(--accent); }
+  .nav-item i { font-size: 16px; width: 18px; text-align: center; }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--surface2);
+    color: var(--text3);
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  /* Main content */
+  .main {
+    margin-left: 220px;
+    flex: 1;
+    padding: 0;
+  }
+
+  /* Page header */
+  .page-header {
+    padding: 28px 32px 20px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--surface);
+  }
+  .page-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 3px;
+  }
+
+  /* Pages */
+  .page { display: none; padding: 24px 32px; }
+  .page.active { display: block; }
+
+  /* Stat cards */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .stat-sub {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title i { font-size: 15px; color: var(--text2); }
+
+  /* Timeline */
+  .timeline { }
+  .tl-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-date {
+    min-width: 80px;
+    font-size: 12px;
+    color: var(--text2);
+    padding-top: 1px;
+  }
+  .tl-date strong {
+    display: block;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .dot-travel { background: var(--amber); }
+  .dot-stay { background: var(--accent); }
+  .dot-event { background: var(--green); }
+  .tl-content { flex: 1; }
+  .tl-title { font-size: 13px; color: var(--text); font-weight: 500; }
+  .tl-detail { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-left: 6px;
+  }
+  .badge-travel { background: var(--amber-bg); color: var(--amber); }
+  .badge-stay { background: var(--accent-bg); color: var(--accent); }
+  .badge-event { background: var(--green-bg); color: var(--green); }
+  .badge-warn { background: var(--red-bg); color: var(--red); }
+  .badge-purple { background: var(--purple-bg); color: var(--purple); }
+  .badge-teal { background: var(--teal-bg); color: var(--teal); }
+
+  /* Route map strip */
+  .route-strip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 16px 0;
+    overflow-x: auto;
+  }
+  .route-city {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+  }
+  .route-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .route-circle.special { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .route-city-name { font-size: 11px; color: var(--text); font-weight: 500; text-align: center; }
+  .route-city-dates { font-size: 10px; color: var(--text2); text-align: center; }
+  .route-arrow {
+    flex: 1;
+    min-width: 24px;
+    height: 1px;
+    background: var(--border2);
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .route-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid var(--border2);
+    border-right: 1px solid var(--border2);
+    transform: rotate(45deg);
+  }
+  .route-arrow span {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    border-bottom: 0.5px solid var(--border);
+    background: var(--surface2);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface2); }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+  }
+  .progress-fill.green { background: var(--green); }
+  .progress-fill.amber { background: var(--amber); }
+  .progress-fill.red { background: var(--red); }
+
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li.done { color: var(--text3); text-decoration: line-through; }
+  .check-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border2);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .check-box.checked { background: var(--accent); border-color: var(--accent); }
+  .check-box.checked::after { content: '✓'; color: white; font-size: 10px; }
+
+  /* Grid 2col */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* People */
+  .people-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .person-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 6px 12px 6px 6px;
+  }
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .person-chip-name { font-size: 12px; color: var(--text); font-weight: 500; }
+  .person-chip-note { font-size: 11px; color: var(--text2); }
+
+  /* Budget */
+  .budget-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .budget-category:last-child { border-bottom: none; }
+  .budget-cat-label { flex: 1; font-size: 13px; color: var(--text); }
+  .budget-cat-amount { font-size: 13px; font-weight: 500; color: var(--text); min-width: 80px; text-align: right; }
+  .budget-cat-bar { flex: 2; }
+
+  /* Attraction card */
+  .attraction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .attraction-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+  }
+  .attraction-card-city {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .attraction-card-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .attraction-card-note {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text3);
+  }
+  .empty-state i { font-size: 32px; margin-bottom: 8px; display: block; }
+  .empty-state p { font-size: 13px; }
+
+  /* Section title */
+  .section-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 24px 0 12px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* Alert */
+  .alert {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .alert-warn { background: var(--amber-bg); color: var(--amber); }
+  .alert-info { background: var(--accent-bg); color: var(--accent); }
+  .alert-success { background: var(--green-bg); color: var(--green); }
+  .alert i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Photo tag */
+  .photo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--purple-bg);
+    color: var(--purple);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin: 2px;
+  }
+
+  /* Hotel card */
+  .hotel-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .hotel-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: var(--teal-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hotel-icon i { font-size: 18px; color: var(--teal); }
+  .hotel-info { flex: 1; }
+  .hotel-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .hotel-city { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  .hotel-dates { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .hotel-status { font-size: 11px; }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; position: relative; height: auto; }
+    .main { margin-left: 0; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">California Graduation Trip 2026 — Travel dashboard with overview, itinerary, attractions, hotels, budget and task list.</h2>
+
+<div class="layout">
+
+<!-- Sidebar -->
+<nav class="sidebar" role="navigation">
+  <div class="sidebar-header">
+    <h1>🎓 Graduation Trip</h1>
+    <p>California · 2026</p>
+    <span class="trip-dates">May 29 – Jun 13</span>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <button class="nav-item active" onclick="showPage('overview')">
+      <i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard
+    </button>
+    <button class="nav-item" onclick="showPage('itinerary')">
+      <i class="ti ti-calendar" aria-hidden="true"></i> Itinerary
+      <span class="nav-badge">14d</span>
+    </button>
+    <button class="nav-item" onclick="showPage('route')">
+      <i class="ti ti-map-2" aria-hidden="true"></i> Route Planning
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Destinations</div>
+    <button class="nav-item" onclick="showPage('attractions')">
+      <i class="ti ti-star" aria-hidden="true"></i> Attractions
+    </button>
+    <button class="nav-item" onclick="showPage('hotels')">
+      <i class="ti ti-bed" aria-hidden="true"></i> Hotels & Airbnb
+    </button>
+    <button class="nav-item" onclick="showPage('restaurants')">
+      <i class="ti ti-tools-kitchen-2" aria-hidden="true"></i> Restaurants
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Planning</div>
+    <button class="nav-item" onclick="showPage('reservations')">
+      <i class="ti ti-ticket" aria-hidden="true"></i> Reservations
+    </button>
+    <button class="nav-item" onclick="showPage('maps')">
+      <i class="ti ti-map-pin" aria-hidden="true"></i> Google Maps
+    </button>
+    <button class="nav-item" onclick="showPage('photography')">
+      <i class="ti ti-camera" aria-hidden="true"></i> Photography
+    </button>
+    <button class="nav-item" onclick="showPage('outfits')">
+      <i class="ti ti-hanger" aria-hidden="true"></i> Outfit Planning
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Finance & Tasks</div>
+    <button class="nav-item" onclick="showPage('budget')">
+      <i class="ti ti-coin" aria-hidden="true"></i> Budget Tracker
+    </button>
+    <button class="nav-item" onclick="showPage('tasks')">
+      <i class="ti ti-checkbox" aria-hidden="true"></i> Task List
+    </button>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+<!-- Page: Dashboard Overview -->
+<div id="page-overview" class="page active">
+  <div class="page-header">
+    <div class="page-title">California Graduation Trip</div>
+    <div class="page-subtitle">May 29 – June 13, 2026 · SD → LA → Yosemite → SF → Hwy 1 → Santa Barbara</div>
+  </div>
+  <div style="padding: 24px 32px;">
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total days</div>
+        <div class="stat-value">16</div>
+        <div class="stat-sub">14 travel + graduation</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total budget</div>
+        <div class="stat-value">$10,000</div>
+        <div class="stat-sub">~$2,500/person</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Travelers</div>
+        <div class="stat-value">4</div>
+        <div class="stat-sub">+1 from June 3</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Cities</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">SD · LA · Yosemite · SF · SB</div>
+      </div>
+    </div>
+
+    <div class="people-row">
+      <div class="person-chip">
+        <div class="avatar" style="background: var(--accent-bg); color: var(--accent);">你</div>
+        <div>
+          <div class="person-chip-name">旅行发起人</div>
+          <div class="person-chip-note">全程 · Santa Barbara出发</div>
+        </div>
+      </div>
+      <div class="person-chip">
+        <div class="avatar" style="background: var(--teal-bg); color: var(--teal);">妈</div>
+        <div>
+          <div class="person-chip-name">妈妈 (1962)</div>
+          <div class="person-chip-note">5/29 LAX落地 · 全程</div>
+        </div>
+      </div>
+      <div class="person-chip">
+        <div class="avatar" style="background: var(--teal-bg); color: var(--teal);">爸</div>
+        <div>
+          <div class="person-chip-name">爸爸 (1958)</div>
+          <div class="person-chip-note">5/29 LAX落地 · 全程</div>
+        </div>
+      </div>
+      <div class="person-chip">
+        <div class="avatar" style="background: var(--purple-bg); color: var(--purple);">BF</div>
+        <div>
+          <div class="person-chip-name">男友</div>
+          <div class="person-chip-note">6/3加入 · 芝加哥出发</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-warn">
+      <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+      <div><strong>待办提醒：</strong>Yosemite Timed Entry Permit（6月需提前抢票）· 男友机票未订 · Airbnb尚未预订</div>
+    </div>
+
+    <div class="alert alert-info">
+      <i class="ti ti-car" aria-hidden="true"></i>
+      <div><strong>自驾提示：</strong>全程Macan自驾。Ragged Point（大苏尔南入口）务必加满油，此后油价极高。</div>
+    </div>
+
+    <div class="section-title">Route at a glance</div>
+    <div class="card" style="overflow-x: auto;">
+      <div class="route-strip">
+        <div class="route-city">
+          <div class="route-circle special"><i class="ti ti-plane-arrival" style="font-size:14px" aria-hidden="true"></i></div>
+          <div class="route-city-name">LAX</div>
+          <div class="route-city-dates">5/29 接机</div>
+        </div>
+        <div class="route-arrow"><span>2.5h</span></div>
+        <div class="route-city">
+          <div class="route-circle">SD</div>
+          <div class="route-city-name">San Diego</div>
+          <div class="route-city-dates">5/29–6/2</div>
+        </div>
+        <div class="route-arrow"><span>2h</span></div>
+        <div class="route-city">
+          <div class="route-circle">LA</div>
+          <div class="route-city-name">Los Angeles</div>
+          <div class="route-city-dates">6/2–6/5</div>
+        </div>
+        <div class="route-arrow"><span>4h</span></div>
+        <div class="route-city">
+          <div class="route-circle">YO</div>
+          <div class="route-city-name">Yosemite</div>
+          <div class="route-city-dates">6/5–6/8</div>
+        </div>
+        <div class="route-arrow"><span>3h</span></div>
+        <div class="route-city">
+          <div class="route-circle">SF</div>
+          <div class="route-city-name">San Francisco</div>
+          <div class="route-city-dates">6/8–6/10</div>
+        </div>
+        <div class="route-arrow"><span>Hwy 1</span></div>
+        <div class="route-city">
+          <div class="route-circle">BG</div>
+          <div class="route-city-name">Big Sur</div>
+          <div class="route-city-dates">6/10晚</div>
+        </div>
+        <div class="route-arrow"><span>3h</span></div>
+        <div class="route-city">
+          <div class="route-circle special"><i class="ti ti-school" style="font-size:14px" aria-hidden="true"></i></div>
+          <div class="route-city-name">Santa Barbara</div>
+          <div class="route-city-dates">6/11 · 典礼6/13</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-coin" aria-hidden="true"></i> Budget snapshot</div>
+        <div class="budget-category">
+          <div class="budget-cat-label">住宿</div>
+          <div class="budget-cat-amount">~$3,500</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill" style="width: 35%"></div></div>
+          </div>
+        </div>
+        <div class="budget-category">
+          <div class="budget-cat-label">餐饮</div>
+          <div class="budget-cat-amount">~$1,500</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill amber" style="width: 15%"></div></div>
+          </div>
+        </div>
+        <div class="budget-category">
+          <div class="budget-cat-label">油费 & 停车</div>
+          <div class="budget-cat-amount">~$600</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill green" style="width: 6%"></div></div>
+          </div>
+        </div>
+        <div class="budget-category">
+          <div class="budget-cat-label">景点门票</div>
+          <div class="budget-cat-amount">~$800</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill green" style="width: 8%"></div></div>
+          </div>
+        </div>
+        <div class="budget-category">
+          <div class="budget-cat-label">机票（男友）</div>
+          <div class="budget-cat-amount">~$400</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill amber" style="width: 4%"></div></div>
+          </div>
+        </div>
+        <div class="budget-category">
+          <div class="budget-cat-label">购物 & 其他</div>
+          <div class="budget-cat-amount">~$500</div>
+          <div class="budget-cat-bar">
+            <div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; font-size: 13px;">
+          <span style="color: var(--text2);">预估总计</span>
+          <span style="font-weight: 500;">$7,300 / $10,000</span>
+        </div>
+        <div class="progress-bar" style="margin-top: 6px; height: 8px;">
+          <div class="progress-fill" style="width: 73%;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="ti ti-checkbox" aria-hidden="true"></i> 关键待办</div>
+        <ul class="checklist">
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>抢购 Yosemite Timed Entry Permit</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>男友订机票 ORD → SD/LAX (6/3)</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Diego Airbnb（4晚）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Los Angeles Airbnb（3晚）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Yosemite 住宿（3晚）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Francisco Airbnb（2晚）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Carmel/Big Sur 酒店（1晚）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>Hearst Castle 导览预约</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Itinerary -->
+<div id="page-itinerary" class="page">
+  <div class="page-header">
+    <div class="page-title">Itinerary</div>
+    <div class="page-subtitle">每日行程总览 · 16天</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date"><strong>5/29</strong>周四</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">转场日 <span class="badge badge-travel">驾车</span></div>
+            <div class="tl-detail">LAX接机（父母6:30PM落地）→ 驾车去San Diego，约2.5h，到达直接休息</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>5/30</strong>周五</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">San Diego Day 1 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">父母时差调整 · 待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>5/31</strong>周六</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">San Diego Day 2 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/1</strong>周日</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">San Diego Day 3 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/2</strong>周一</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">SD → LA <span class="badge badge-travel">驾车 ~2h</span></div>
+            <div class="tl-detail">上午退房，下午抵达洛杉矶安顿</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/3</strong>周二</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">Los Angeles Day 1 <span class="badge badge-stay">游玩</span> <span class="badge badge-purple">男友抵达</span></div>
+            <div class="tl-detail">男友飞抵LAX，当晚会合 · 待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/4</strong>周三</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">Los Angeles Day 2 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/5</strong>周四</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">LA → Yosemite <span class="badge badge-travel">驾车 ~3.5–4h</span></div>
+            <div class="tl-detail">建议早出发，抵达后傍晚可在Valley底部漫步</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/6</strong>周五</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">Yosemite Day 1 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划 · 需Timed Entry Permit</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/7</strong>周六</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">Yosemite Day 2 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/8</strong>周日</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">Yosemite → SF <span class="badge badge-travel">驾车 ~3h</span></div>
+            <div class="tl-detail">上午离开，下午抵达旧金山</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/9</strong>周一</div>
+          <div class="tl-dot dot-stay"></div>
+          <div class="tl-content">
+            <div class="tl-title">San Francisco Day 1 <span class="badge badge-stay">游玩</span></div>
+            <div class="tl-detail">待规划</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/10</strong>周二</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">SF Day 2 上午 → 下午出发一号公路 <span class="badge badge-travel">Hwy 1</span></div>
+            <div class="tl-detail">下午从SF出发，沿一号公路南行，当晚住Carmel或Big Sur</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/11</strong>周三</div>
+          <div class="tl-dot dot-travel"></div>
+          <div class="tl-content">
+            <div class="tl-title">一号公路 → Santa Barbara <span class="badge badge-travel">Hwy 1南行</span></div>
+            <div class="tl-detail">Big Sur → 象海豹观景台 → Cambria → Morro Bay → SB，傍晚回家</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/12</strong>周四</div>
+          <div class="tl-dot dot-event"></div>
+          <div class="tl-content">
+            <div class="tl-title">缓冲休息日 <span class="badge badge-event">Santa Barbara</span></div>
+            <div class="tl-detail">备考毕业典礼，整理行装，家庭轻松时光</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date"><strong>6/13</strong>周五</div>
+          <div class="tl-dot dot-event"></div>
+          <div class="tl-content">
+            <div class="tl-title">🎓 毕业典礼 <span class="badge badge-event">Graduation</span></div>
+            <div class="tl-detail">Santa Barbara · 全家见证</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Route Planning -->
+<div id="page-route" class="page">
+  <div class="page-header">
+    <div class="page-title">Route Planning</div>
+    <div class="page-subtitle">城市停留分析 & 驾车距离</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-map-route" aria-hidden="true"></i> 城市停留分配</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>城市</th>
+            <th>入住</th>
+            <th>退房</th>
+            <th>游玩天数</th>
+            <th>住宿晚数</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>San Diego</strong></td>
+            <td>5/29夜</td>
+            <td>6/2早</td>
+            <td>3整天</td>
+            <td>4晚</td>
+            <td><span class="badge badge-stay">父母时差恢复</span></td>
+          </tr>
+          <tr>
+            <td><strong>Los Angeles</strong></td>
+            <td>6/2夜</td>
+            <td>6/5早</td>
+            <td>2整天</td>
+            <td>3晚</td>
+            <td><span class="badge badge-purple">男友6/3加入</span></td>
+          </tr>
+          <tr>
+            <td><strong>Yosemite</strong></td>
+            <td>6/5夜</td>
+            <td>6/8早</td>
+            <td>2整天</td>
+            <td>3晚</td>
+            <td><span class="badge badge-warn">需提前抢Permit</span></td>
+          </tr>
+          <tr>
+            <td><strong>San Francisco</strong></td>
+            <td>6/8夜</td>
+            <td>6/10下午</td>
+            <td>1.5天</td>
+            <td>2晚</td>
+            <td><span class="badge badge-stay">下午出发一号公路</span></td>
+          </tr>
+          <tr>
+            <td><strong>Carmel / Big Sur</strong></td>
+            <td>6/10夜</td>
+            <td>6/11早</td>
+            <td>—</td>
+            <td>1晚</td>
+            <td><span class="badge badge-teal">一号公路中途住宿</span></td>
+          </tr>
+          <tr>
+            <td><strong>Santa Barbara</strong></td>
+            <td>6/11</td>
+            <td>—</td>
+            <td>2天</td>
+            <td>回家</td>
+            <td><span class="badge badge-event">毕业典礼6/13</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-car" aria-hidden="true"></i> 各段驾车信息</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>路段</th><th>距离</th><th>时间</th><th>日期</th><th>注意事项</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>LAX → San Diego</td>
+            <td>~120 mi</td>
+            <td>~2.5h</td>
+            <td>5/29晚</td>
+            <td>夜晚驾车，父母刚下飞机，注意休息</td>
+          </tr>
+          <tr>
+            <td>San Diego → LA</td>
+            <td>~120 mi</td>
+            <td>~2h</td>
+            <td>6/2</td>
+            <td>I-405/I-5，早上出发避开拥堵</td>
+          </tr>
+          <tr>
+            <td>LA → Yosemite</td>
+            <td>~310 mi</td>
+            <td>~3.5–4h</td>
+            <td>6/5</td>
+            <td>经CA-99，建议8AM出发，午后入园</td>
+          </tr>
+          <tr>
+            <td>Yosemite → SF</td>
+            <td>~190 mi</td>
+            <td>~3h</td>
+            <td>6/8</td>
+            <td>经CA-120或US-395，风景优美</td>
+          </tr>
+          <tr>
+            <td>SF → Big Sur (Hwy 1)</td>
+            <td>~155 mi</td>
+            <td>~3.5h（含停留更长）</td>
+            <td>6/10下午</td>
+            <td>弯路多，建议2PM出发，日落前到Carmel</td>
+          </tr>
+          <tr>
+            <td>Big Sur → Santa Barbara</td>
+            <td>~200 mi</td>
+            <td>~4h（含景点停留）</td>
+            <td>6/11</td>
+            <td>经Cambria、Morro Bay，⛽ Ragged Point加满油</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Attractions -->
+<div id="page-attractions" class="page">
+  <div class="page-header">
+    <div class="page-title">Attraction Database</div>
+    <div class="page-subtitle">各城市景点整理 · 持续更新</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="section-title">San Diego</div>
+    <div class="attraction-grid">
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Diego</div>
+        <div class="attraction-card-name">Balboa Park</div>
+        <div class="attraction-card-note">博物馆群+西班牙建筑，步行友好，适合父母 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Diego</div>
+        <div class="attraction-card-name">La Jolla Cove</div>
+        <div class="attraction-card-note">海豹聚集地+碧蓝海水，日落前光线极佳 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Diego</div>
+        <div class="attraction-card-name">Coronado Island</div>
+        <div class="attraction-card-note">著名Hotel del Coronado，白沙滩，适合下午茶时光</div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Diego</div>
+        <div class="attraction-card-name">Old Town SD</div>
+        <div class="attraction-card-note">墨西哥风情历史街区，美食丰富，父母喜欢</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 20px;">Los Angeles</div>
+    <div class="attraction-grid">
+      <div class="attraction-card">
+        <div class="attraction-card-city">Los Angeles</div>
+        <div class="attraction-card-name">Getty Center</div>
+        <div class="attraction-card-note">免费入场，建筑+艺术+城市全景，上午光线最佳 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Los Angeles</div>
+        <div class="attraction-card-name">Griffith Observatory</div>
+        <div class="attraction-card-note">俯瞰LA全景+好莱坞标志，日落黄金机位 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Los Angeles</div>
+        <div class="attraction-card-name">Santa Monica Pier</div>
+        <div class="attraction-card-note">Route 66终点，海边步行道，轻松散步</div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Los Angeles</div>
+        <div class="attraction-card-name">Beverly Hills</div>
+        <div class="attraction-card-note">Rodeo Drive打卡，Greystone Mansion拍照 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 20px;">Yosemite</div>
+    <div class="attraction-grid">
+      <div class="attraction-card">
+        <div class="attraction-card-city">Yosemite</div>
+        <div class="attraction-card-name">Tunnel View</div>
+        <div class="attraction-card-note">经典全景机位，El Capitan+Half Dome同框，日出必去 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Yosemite</div>
+        <div class="attraction-card-name">Valley View</div>
+        <div class="attraction-card-note">驾车可到，父母友好，宽阔谷地视角 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Yosemite</div>
+        <div class="attraction-card-name">Mirror Lake</div>
+        <div class="attraction-card-note">短距离步道，平静倒影，清晨光线极美 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Yosemite</div>
+        <div class="attraction-card-name">Yosemite Falls</div>
+        <div class="attraction-card-note">北美最高瀑布，6月水量充沛，观景点步行轻松</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 20px;">San Francisco</div>
+    <div class="attraction-grid">
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Francisco</div>
+        <div class="attraction-card-name">Golden Gate Bridge</div>
+        <div class="attraction-card-note">Battery Spencer机位（北侧），清晨薄雾最美 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Francisco</div>
+        <div class="attraction-card-name">九曲花街</div>
+        <div class="attraction-card-note">Lombard Street，父母必打卡，早去避人群</div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Francisco</div>
+        <div class="attraction-card-name">Chinatown</div>
+        <div class="attraction-card-note">全美最大华人街，父母有亲切感，午餐好选择</div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">San Francisco</div>
+        <div class="attraction-card-name">渔人码头</div>
+        <div class="attraction-card-note">Pier 39海狮，海鲜餐厅，轻松半天</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 20px;">Highway 1</div>
+    <div class="attraction-grid">
+      <div class="attraction-card">
+        <div class="attraction-card-city">Highway 1</div>
+        <div class="attraction-card-name">Bixby Creek Bridge</div>
+        <div class="attraction-card-note">一号公路最标志性机位，停车即拍，必去 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Highway 1</div>
+        <div class="attraction-card-name">McWay Falls</div>
+        <div class="attraction-card-note">瀑布落入海滩，短步道即达，父母无压力 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Highway 1</div>
+        <div class="attraction-card-name">象海豹观景台</div>
+        <div class="attraction-card-note">Piedras Blancas，停车即看，壮观自然奇景</div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-card-city">Highway 1</div>
+        <div class="attraction-card-name">Carmel-by-the-Sea</div>
+        <div class="attraction-card-note">童话小镇，白沙滩，精品小店，父母喜欢 <span class="photo-tag"><i class="ti ti-camera" aria-hidden="true"></i> 拍照</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Hotels -->
+<div id="page-hotels" class="page">
+  <div class="page-header">
+    <div class="page-title">Hotels & Airbnb</div>
+    <div class="page-subtitle">住宿规划 · 共5处换房</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="alert alert-info">
+      <i class="ti ti-info-circle" aria-hidden="true"></i>
+      <div>策略：以Airbnb为主（家庭共享空间+厨房），酒店每间房$200以内。父母一间，你们一间，需要两居室以上。</div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-icon"><i class="ti ti-home" aria-hidden="true"></i></div>
+      <div class="hotel-info">
+        <div class="hotel-name">San Diego · Airbnb</div>
+        <div class="hotel-city">建议区域：La Jolla / Mission Beach / Gaslamp Quarter</div>
+        <div class="hotel-dates">5/29夜 – 6/2早 · 4晚 · 2卧室以上</div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
+        预算 ~$800–1200<br><span style="font-size: 11px; color: var(--text3);">含清洁费</span>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-icon"><i class="ti ti-home" aria-hidden="true"></i></div>
+      <div class="hotel-info">
+        <div class="hotel-name">Los Angeles · Airbnb</div>
+        <div class="hotel-city">建议区域：West Hollywood / Silver Lake / Santa Monica</div>
+        <div class="hotel-dates">6/2夜 – 6/5早 · 3晚 · 6/3男友加入，需2卧室</div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
+        预算 ~$700–1000
+      </div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-icon"><i class="ti ti-tree" aria-hidden="true"></i></div>
+      <div class="hotel-info">
+        <div class="hotel-name">Yosemite · 园内/园外住宿</div>
+        <div class="hotel-city">优先：Yosemite Valley Lodge / Curry Village 小屋 / El Portal Airbnb</div>
+        <div class="hotel-dates">6/5夜 – 6/8早 · 3晚</div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订 · 极难预订，越早越好</span></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
+        预算 ~$600–900
+      </div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-icon"><i class="ti ti-building" aria-hidden="true"></i></div>
+      <div class="hotel-info">
+        <div class="hotel-name">San Francisco · Airbnb</div>
+        <div class="hotel-city">建议区域：Marina / Pacific Heights / Nob Hill</div>
+        <div class="hotel-dates">6/8夜 – 6/10下午 · 2晚</div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
+        预算 ~$500–700
+      </div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-icon"><i class="ti ti-waves" aria-hidden="true"></i></div>
+      <div class="hotel-info">
+        <div class="hotel-name">Carmel-by-the-Sea · 酒店</div>
+        <div class="hotel-city">建议：Carmel Mission Inn / Hofsas House / La Playa Carmel</div>
+        <div class="hotel-dates">6/10夜 – 6/11早 · 1晚</div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
+        预算 ~$300–500<br><span style="font-size: 11px; color: var(--text3);">两间房</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Restaurants -->
+<div id="page-restaurants" class="page">
+  <div class="page-header">
+    <div class="page-title">Restaurants</div>
+    <div class="page-subtitle">各城市餐厅推荐 · 持续更新</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="empty-state">
+      <i class="ti ti-tools-kitchen-2" aria-hidden="true"></i>
+      <p>餐厅数据库待填充</p>
+      <p style="margin-top: 6px; font-size: 12px;">策略：当地特色为主 + 民宿自炊，父母口味兼顾</p>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Reservations -->
+<div id="page-reservations" class="page">
+  <div class="page-header">
+    <div class="page-title">Reservations</div>
+    <div class="page-subtitle">需提前预订的项目</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="card">
+      <table class="data-table">
+        <thead>
+          <tr><th>项目</th><th>城市</th><th>紧急程度</th><th>预订状态</th><th>备注</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Yosemite Timed Entry Permit</td>
+            <td>Yosemite</td>
+            <td><span class="badge badge-warn">极紧急</span></td>
+            <td><span class="badge badge-warn">未完成</span></td>
+            <td>6月需提前抢，recreation.gov</td>
+          </tr>
+          <tr>
+            <td>Yosemite 园内住宿</td>
+            <td>Yosemite</td>
+            <td><span class="badge badge-warn">极紧急</span></td>
+            <td><span class="badge badge-warn">未完成</span></td>
+            <td>提前5个月开放，极难抢</td>
+          </tr>
+          <tr>
+            <td>Hearst Castle 导览</td>
+            <td>Highway 1</td>
+            <td><span class="badge badge-stay">建议提前</span></td>
+            <td><span class="badge badge-warn">未完成</span></td>
+            <td>需网上预约，hearstcastle.org</td>
+          </tr>
+          <tr>
+            <td>男友机票 ORD→SD/LAX</td>
+            <td>Los Angeles</td>
+            <td><span class="badge badge-stay">尽快</span></td>
+            <td><span class="badge badge-warn">未完成</span></td>
+            <td>6/3到达</td>
+          </tr>
+          <tr>
+            <td>Alcatraz 渡船票</td>
+            <td>San Francisco</td>
+            <td><span class="badge badge-stay">建议提前</span></td>
+            <td><span class="badge badge-warn">未完成</span></td>
+            <td>可选，nps.gov/alca</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Maps -->
+<div id="page-maps" class="page">
+  <div class="page-header">
+    <div class="page-title">Google Maps</div>
+    <div class="page-subtitle">地图收藏 & 导航链接</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="empty-state">
+      <i class="ti ti-map-pin" aria-hidden="true"></i>
+      <p>Google Maps链接待添加</p>
+      <p style="margin-top: 6px; font-size: 12px;">每个城市的景点、餐厅、停车场地图将在第三阶段规划时更新</p>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Photography -->
+<div id="page-photography" class="page">
+  <div class="page-header">
+    <div class="page-title">Photography</div>
+    <div class="page-subtitle">拍摄计划 · 机位 · 光线时间</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="alert alert-info">
+      <i class="ti ti-camera" aria-hidden="true"></i>
+      <div>拍摄原则：人像+景色兼顾，手机拍摄为主，重视光线（日出/日落黄金时段），提前规划服装与场景匹配</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-sun" aria-hidden="true"></i> 黄金时段机位清单</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>地点</th><th>最佳时段</th><th>拍摄类型</th><th>备注</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>La Jolla Cove</td>
+            <td>日落前1h</td>
+            <td>人像+海景</td>
+            <td>光线暖，礁石海豹背景</td>
+          </tr>
+          <tr>
+            <td>Griffith Observatory</td>
+            <td>日落+蓝调时刻</td>
+            <td>城市夜景+人像</td>
+            <td>LA全景，需早到占位</td>
+          </tr>
+          <tr>
+            <td>Tunnel View, Yosemite</td>
+            <td>日出后1h</td>
+            <td>大景+人像</td>
+            <td>薄雾效果绝佳，建议5:30AM到达</td>
+          </tr>
+          <tr>
+            <td>Mirror Lake</td>
+            <td>清晨无风时</td>
+            <td>倒影+人像</td>
+            <td>6月积雪融水，水量充足</td>
+          </tr>
+          <tr>
+            <td>Battery Spencer（金门桥）</td>
+            <td>日出/日落</td>
+            <td>大桥全景</td>
+            <td>北侧机位，需驾车过桥到Sausalito</td>
+          </tr>
+          <tr>
+            <td>Bixby Creek Bridge</td>
+            <td>上午顺光</td>
+            <td>人像+公路</td>
+            <td>停车位有限，早到</td>
+          </tr>
+          <tr>
+            <td>McWay Falls</td>
+            <td>午前</td>
+            <td>瀑布+海湾</td>
+            <td>逆光问题，上午拍摄更好</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Outfits -->
+<div id="page-outfits" class="page">
+  <div class="page-header">
+    <div class="page-title">Outfit Planning</div>
+    <div class="page-subtitle">各场景穿搭规划</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="empty-state">
+      <i class="ti ti-hanger" aria-hidden="true"></i>
+      <p>穿搭规划待填充</p>
+      <p style="margin-top: 6px; font-size: 12px;">将按城市/场景规划服装搭配，配合拍照机位和色调</p>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Budget -->
+<div id="page-budget" class="page">
+  <div class="page-header">
+    <div class="page-title">Budget Tracker</div>
+    <div class="page-subtitle">总预算 $10,000 · 四人</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">总预算</div>
+        <div class="stat-value">$10,000</div>
+        <div class="stat-sub">四人合计</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">已预估支出</div>
+        <div class="stat-value">$7,300</div>
+        <div class="stat-sub">占预算 73%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">剩余缓冲</div>
+        <div class="stat-value">$2,700</div>
+        <div class="stat-sub">弹性空间</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">人均</div>
+        <div class="stat-value">$2,500</div>
+        <div class="stat-sub">14天深度游</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> 预算分类</div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-home" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 住宿（Airbnb+酒店）</div>
+        <div class="budget-cat-amount">$3,500</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div></div>
+      </div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-tools-kitchen-2" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 餐饮（外食+自炊）</div>
+        <div class="budget-cat-amount">$1,500</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill amber" style="width:15%"></div></div></div>
+      </div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-gas-station" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 油费 & 停车</div>
+        <div class="budget-cat-amount">$600</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill green" style="width:6%"></div></div></div>
+      </div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-ticket" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 景点门票 & 活动</div>
+        <div class="budget-cat-amount">$800</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill green" style="width:8%"></div></div></div>
+      </div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-plane" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 机票（男友）</div>
+        <div class="budget-cat-amount">$400</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill amber" style="width:4%"></div></div></div>
+      </div>
+      <div class="budget-category">
+        <div class="budget-cat-label"><i class="ti ti-shopping-bag" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 购物 & 纪念品</div>
+        <div class="budget-cat-amount">$500</div>
+        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill" style="width:5%"></div></div></div>
+      </div>
+      <div style="margin-top: 16px; padding-top: 12px; border-top: 0.5px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+          <span style="color: var(--text2);">预估总支出</span>
+          <span style="font-weight: 500;">$7,300 / $10,000</span>
+        </div>
+        <div class="progress-bar" style="height: 10px; border-radius: 5px;">
+          <div class="progress-fill" style="width: 73%;"></div>
+        </div>
+        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">剩余 $2,700 作为弹性缓冲（额外餐饮、停车、临时活动等）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Tasks -->
+<div id="page-tasks" class="page">
+  <div class="page-header">
+    <div class="page-title">Task List</div>
+    <div class="page-subtitle">出发前必须完成的事项</div>
+  </div>
+  <div style="padding: 24px 32px;">
+    <div class="section-title">🔴 紧急（越快越好）</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>抢 Yosemite Timed Entry Permit</div><div style="font-size:11px;color:var(--text2);margin-top:2px">recreation.gov · 6月需提前，通常提前月初抢下月</div></div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>预订 Yosemite 园内/近郊住宿</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Curry Village / Yosemite Valley Lodge / El Portal，极难抢，立刻行动</div></div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>男友订机票 ORD → SD or LAX（6/3到达）</div></div></li>
+      </ul>
+    </div>
+
+    <div class="section-title">🟡 尽快（出发前2–4周）</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Diego Airbnb（2卧室，5/29–6/2，4晚）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Los Angeles Airbnb（2卧室，6/2–6/5，3晚）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Francisco Airbnb（2卧室，6/8–6/10，2晚）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Carmel 酒店（两间，6/10–6/11，1晚）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>预约 Hearst Castle 导览（hearstcastle.org）</li>
+      </ul>
+    </div>
+
+    <div class="section-title">🟢 出发前一周</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>确认所有Airbnb/酒店预订</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>下载Google Maps离线地图（加州全境）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Macan检查油量、轮胎、保险</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>规划每日拍照穿搭，准备备用服装</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>确认父母手机国际漫游/购买美国SIM</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Yosemite入园通行证打印/存手机</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const li = el.closest('li');
+  if (el.classList.contains('checked')) {
+    li.classList.add('done');
+  } else {
+    li.classList.remove('done');
+  }
+}
+</script>
+</body>
+</html>

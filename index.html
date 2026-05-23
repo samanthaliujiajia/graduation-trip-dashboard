@@ -806,28 +806,33 @@
         <div class="avatar" style="background: var(--teal-bg); color: var(--teal);">妈</div>
         <div>
           <div class="person-chip-name">妈妈</div>
-          <div class="person-chip-note">5/29 LAX落地 · 全程</div>
+          <div class="person-chip-note">5/29 16:30 LAX落地 · 全程</div>
         </div>
       </div>
       <div class="person-chip">
         <div class="avatar" style="background: var(--teal-bg); color: var(--teal);">爸</div>
         <div>
           <div class="person-chip-name">爸爸</div>
-          <div class="person-chip-note">5/29 LAX落地 · 全程</div>
+          <div class="person-chip-note">5/29 16:30 LAX落地 · 全程</div>
         </div>
       </div>
       <div class="person-chip">
         <div class="avatar" style="background: var(--purple-bg); color: var(--purple);">BF</div>
         <div>
           <div class="person-chip-name">男友</div>
-          <div class="person-chip-note">6/3加入 · 芝加哥出发</div>
+          <div class="person-chip-note">6/3 11:29 LAX落地 · ORD出发</div>
         </div>
       </div>
     </div>
 
     <div class="alert alert-warn">
       <i class="ti ti-alert-triangle" aria-hidden="true"></i>
-      <div><strong>待办提醒：</strong>Yosemite 住宿需尽快锁定 · 男友抵达机场/时间待确认 · Airbnb尚未预订</div>
+      <div><strong>待办提醒：</strong>Yosemite 住宿需尽快锁定 · 6/3 11:29 LAX 接机衔接待安排 · Airbnb尚未预订</div>
+    </div>
+
+    <div class="alert alert-success">
+      <i class="ti ti-plane" aria-hidden="true"></i>
+      <div><strong>航班已预订：</strong>父母 5/29 经香港抵达 LAX（16:30），6/15 从 LAX 经香港返武汉；男友 6/3 由 ORD 抵达 LAX（11:29）。</div>
     </div>
 
     <div class="alert alert-info">
@@ -841,7 +846,7 @@
         <div class="route-city">
           <div class="route-circle special"><i class="ti ti-plane-arrival" style="font-size:14px" aria-hidden="true"></i></div>
           <div class="route-city-name">LAX</div>
-          <div class="route-city-dates">5/29 接机</div>
+          <div class="route-city-dates">5/29 16:30 接机</div>
         </div>
         <div class="route-arrow"><span>2.5h</span></div>
         <div class="route-city">
@@ -933,7 +938,7 @@
         <div class="card-title"><i class="ti ti-checkbox" aria-hidden="true"></i> 关键待办</div>
         <ul class="checklist">
           <li><div class="check-box" onclick="toggleCheck(this)"></div>确认 Yosemite 住宿与入园费/通行证选择</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>确认男友 6/3 抵达机场和接机时间（不计入预算）</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>安排男友 6/3 11:29 LAX 接机衔接</li>
           <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Diego Airbnb（4晚）</li>
           <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Los Angeles Airbnb（3晚）</li>
           <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Yosemite 住宿（3晚）</li>
@@ -960,7 +965,7 @@
           <div class="tl-dot dot-travel"></div>
           <div class="tl-content">
             <div class="tl-title">转场日 <span class="badge badge-travel">驾车</span></div>
-            <div class="tl-detail">LAX接机（父母6:30PM落地）→ 驾车去San Diego，约2.5h，到达直接休息</div>
+            <div class="tl-detail">LAX接机（父母乘国泰 CX882 于 16:30 抵达）→ 驾车去 San Diego，约2.5h，到达直接休息</div>
           </div>
         </div>
         <div class="tl-item">
@@ -1000,7 +1005,7 @@
           <div class="tl-dot dot-stay"></div>
           <div class="tl-content">
             <div class="tl-title">Los Angeles Day 1 <span class="badge badge-stay">游玩</span> <span class="badge badge-purple">男友抵达</span></div>
-            <div class="tl-detail">根据男友航班保持弹性：接机前可选 Santa Monica 轻松散步，晚间会合休息</div>
+            <div class="tl-detail">男友乘 United Economy 航班从 ORD 于 11:29 抵达 LAX；完成接机后仅保留轻松活动弹性，具体景点待筛选确认</div>
           </div>
         </div>
         <div class="tl-item">
@@ -1406,11 +1411,18 @@
             <td>官方建议提前预订；如加入则需为 6/11 留足参观时间</td>
           </tr>
           <tr>
+            <td>父母往返机票</td>
+            <td>Wuhan / Los Angeles</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>5/29 CX937 WUH 12:25 → HKG 14:45；CX882 HKG 18:25 → LAX 16:30。6/15 CX883 LAX 00:25 → HKG 6/16 05:45；CX924 HKG 09:00 → WUH 11:05</td>
+          </tr>
+          <tr>
             <td>男友抵达航班信息</td>
             <td>Los Angeles</td>
-            <td><span class="badge badge-stay">尽快</span></td>
-            <td><span class="badge badge-warn">未完成</span></td>
-            <td>确认 6/3 抵达 LAX 或 SAN 及时间；不计入旅行预算</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>6/3 United Economy (T)：ORD 08:51 → LAX 11:29，飞行 4h 38m</td>
           </tr>
           <tr>
             <td>Alcatraz 渡船票</td>
@@ -1673,7 +1685,7 @@
         <div class="progress-bar" style="height: 10px; border-radius: 5px;">
           <div class="progress-fill" style="width: 69%;"></div>
         </div>
-        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">剩余 $3,100 作为弹性缓冲（额外餐饮、停车、临时活动等；男友机票不计入本预算）</div>
+        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">剩余 $3,100 作为弹性缓冲（额外餐饮、停车、临时活动等）</div>
       </div>
     </div>
   </div>
@@ -1690,7 +1702,7 @@
     <div class="card">
       <ul class="checklist">
         <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>预订 Yosemite 园内/近郊住宿</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Curry Village / Yosemite Valley Lodge / El Portal；日期已临近，立即确认库存与取消条款</div></div></li>
-        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>确认男友抵达航班信息（6/3，LAX 或 SAN）</div><div style="font-size:11px;color:var(--text2);margin-top:2px">用于接机与行程衔接；机票费用不计入本预算</div></div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>安排男友抵达接机衔接（6/3 11:29，LAX）</div><div style="font-size:11px;color:var(--text2);margin-top:2px">航班已预订：ORD 08:51 → LAX 11:29</div></div></li>
         <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>确认 Yosemite 入园费与同行者居民/通行证状态</div><div style="font-size:11px;color:var(--text2);margin-top:2px">2026 年非美国居民（16+）可能涉及每人 $100 附加费</div></div></li>
       </ul>
     </div>

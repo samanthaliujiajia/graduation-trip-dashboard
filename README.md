@@ -11,6 +11,6 @@
 
 ## 当前主线
 
-2026-05-29 至 2026-06-13：LAX 接父母后前往 San Diego，再依次前往 Los Angeles、Yosemite、San Francisco、沿 Highway 1 返回 Santa Barbara，最终参加毕业典礼。
+2026-05-29 至 2026-06-13：父母于 2026-05-29 16:30 抵达 LAX 后前往 San Diego，再依次前往 Los Angeles、Yosemite、San Francisco、沿 Highway 1 返回 Santa Barbara，最终参加毕业典礼。父母返程机票已订，为 2026-06-15 从 LAX 经香港返回武汉。
 
-优先处理事项：Yosemite 住宿、男友 2026-06-03 抵达机场与时间衔接（机票不计入行程预算）、其余住宿、Yosemite 入园费用/通行证身份确认，以及出发前 Highway 1 路况复查。
+已订航班：男友于 2026-06-03 11:29 从 ORD 抵达 LAX。优先处理事项：Yosemite 住宿、男友 LAX 接机衔接、其余住宿、Yosemite 入园费用/通行证身份确认，以及出发前 Highway 1 路况复查。

@@ -253,6 +253,43 @@
   .tl-content { flex: 1; }
   .tl-title { font-size: 13px; color: var(--text); font-weight: 500; }
   .tl-detail { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  .day-board {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .day-board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .day-board-title { font-size: 14px; font-weight: 500; }
+  .day-board-theme { font-size: 12px; color: var(--text2); }
+  .agenda {
+    display: grid;
+    grid-template-columns: 112px minmax(180px, 1fr) minmax(220px, 1fr);
+  }
+  .agenda > div {
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 12px;
+  }
+  .agenda > div:nth-last-child(-n + 3) { border-bottom: none; }
+  .agenda-head {
+    color: var(--text2);
+    background: var(--surface);
+    font-size: 11px !important;
+    font-weight: 500;
+  }
+  .agenda-time { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .agenda-note { color: var(--text2); }
 
   /* Badge */
   .badge {
@@ -609,6 +646,33 @@
     color: var(--accent);
   }
 
+  /* Map itinerary cards */
+  .map-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .map-day-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .map-day-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .map-day-body { padding: 12px 14px 14px; }
+  .map-day-title { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+  .map-day-summary { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+  .map-day-body a { color: var(--accent); text-decoration: none; font-size: 12px; }
+  .route-legs { margin-top: 10px; }
+
   /* Empty state */
   .empty-state {
     text-align: center;
@@ -684,12 +748,27 @@
   .hotel-name { font-size: 13px; font-weight: 500; color: var(--text); }
   .hotel-city { font-size: 12px; color: var(--text2); margin-top: 1px; }
   .hotel-dates { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .hotel-details {
+    display: grid;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .hotel-details strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .hotel-details a { color: var(--accent); text-decoration: none; }
   .hotel-status { font-size: 11px; }
 
   @media (max-width: 768px) {
     .sidebar { width: 100%; position: relative; height: auto; }
     .main { margin-left: 0; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .agenda { grid-template-columns: 92px 1fr; }
+    .agenda .agenda-note { grid-column: 2; padding-top: 0; }
+    .agenda .agenda-head:last-child { display: none; }
   }
 </style>
 </head>
@@ -827,7 +906,7 @@
 
     <div class="alert alert-warn">
       <i class="ti ti-alert-triangle" aria-hidden="true"></i>
-      <div><strong>待办提醒：</strong>Yosemite 住宿需尽快锁定 · 6/3 11:29 LAX 接机衔接待安排 · Airbnb尚未预订</div>
+      <div><strong>待办提醒：</strong>6/3 11:29 LAX 接机衔接待安排 · Yosemite 入园费用/通行证待确认</div>
     </div>
 
     <div class="alert alert-success">
@@ -875,8 +954,8 @@
         <div class="route-arrow"><span>Hwy 1</span></div>
         <div class="route-city">
           <div class="route-circle">BG</div>
-          <div class="route-city-name">Big Sur</div>
-          <div class="route-city-dates">6/10晚</div>
+          <div class="route-city-name">Monterey</div>
+          <div class="route-city-dates">6/10住宿</div>
         </div>
         <div class="route-arrow"><span>3h</span></div>
         <div class="route-city">
@@ -889,61 +968,30 @@
 
     <div class="grid-2">
       <div class="card">
-        <div class="card-title"><i class="ti ti-coin" aria-hidden="true"></i> Budget snapshot</div>
+        <div class="card-title"><i class="ti ti-coin" aria-hidden="true"></i> Budget snapshot · 实际支出</div>
         <div class="budget-category">
-          <div class="budget-cat-label">住宿</div>
-          <div class="budget-cat-amount">~$3,500</div>
-          <div class="budget-cat-bar">
-            <div class="progress-bar"><div class="progress-fill" style="width: 35%"></div></div>
-          </div>
+          <div class="budget-cat-label">累计已支付（原币）</div>
+          <div class="budget-cat-amount">USD $1,798.90 + CNY ¥12,537.48</div>
         </div>
         <div class="budget-category">
-          <div class="budget-cat-label">餐饮</div>
-          <div class="budget-cat-amount">~$1,500</div>
-          <div class="budget-cat-bar">
-            <div class="progress-bar"><div class="progress-fill amber" style="width: 15%"></div></div>
-          </div>
-        </div>
-        <div class="budget-category">
-          <div class="budget-cat-label">油费 & 停车</div>
-          <div class="budget-cat-amount">~$600</div>
-          <div class="budget-cat-bar">
-            <div class="progress-bar"><div class="progress-fill green" style="width: 6%"></div></div>
-          </div>
-        </div>
-        <div class="budget-category">
-          <div class="budget-cat-label">景点门票</div>
-          <div class="budget-cat-amount">~$800</div>
-          <div class="budget-cat-bar">
-            <div class="progress-bar"><div class="progress-fill green" style="width: 8%"></div></div>
-          </div>
-        </div>
-        <div class="budget-category">
-          <div class="budget-cat-label">购物 & 其他</div>
-          <div class="budget-cat-amount">~$500</div>
-          <div class="budget-cat-bar">
-            <div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div>
-          </div>
+          <div class="budget-cat-label">总预算剩余（约）</div>
+          <div class="budget-cat-amount">USD $6,353.07</div>
         </div>
         <div style="margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; font-size: 13px;">
-          <span style="color: var(--text2);">预估总计</span>
-          <span style="font-weight: 500;">$6,900 / $10,000</span>
+          <span style="color: var(--text2);">已支付折算参考</span>
+          <span style="font-weight: 500;">约 USD $3,646.93 / USD $10,000</span>
         </div>
         <div class="progress-bar" style="margin-top: 6px; height: 8px;">
-          <div class="progress-fill" style="width: 69%;"></div>
+          <div class="progress-fill" style="width: 36.47%;"></div>
         </div>
+        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">人民币酒店付款按订单页提供的美元/人民币参考比例折算；SF 与 Monterey 到店待付合计 USD $166.80 尚未计入。</div>
       </div>
 
       <div class="card">
         <div class="card-title"><i class="ti ti-checkbox" aria-hidden="true"></i> 关键待办</div>
         <ul class="checklist">
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>确认 Yosemite 住宿与入园费/通行证选择</li>
+          <li><div class="check-box" onclick="toggleCheck(this)"></div>确认 Yosemite 入园费/通行证选择</li>
           <li><div class="check-box" onclick="toggleCheck(this)"></div>安排男友 6/3 11:29 LAX 接机衔接</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Diego Airbnb（4晚）</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Los Angeles Airbnb（3晚）</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Yosemite 住宿（3晚）</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Francisco Airbnb（2晚）</li>
-          <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Carmel/Big Sur 酒店（1晚）</li>
           <li><div class="check-box" onclick="toggleCheck(this)"></div>Hearst Castle 导览预约</li>
         </ul>
       </div>
@@ -965,7 +1013,7 @@
           <div class="tl-dot dot-travel"></div>
           <div class="tl-content">
             <div class="tl-title">转场日 <span class="badge badge-travel">驾车</span></div>
-            <div class="tl-detail">LAX接机（父母乘国泰 CX882 于 16:30 抵达）→ 驾车去 San Diego，约2.5h，到达直接休息</div>
+            <div class="tl-detail">16:30 LAX 接机；预留入境、补给与途中休息后前往 San Diego 酒店，当晚不排景点</div>
           </div>
         </div>
         <div class="tl-item">
@@ -973,7 +1021,7 @@
           <div class="tl-dot dot-stay"></div>
           <div class="tl-content">
             <div class="tl-title">San Diego Day 1 <span class="badge badge-stay">游玩</span></div>
-            <div class="tl-detail">睡足后采购民宿早餐食材；下午 La Jolla Cove 轻松散步，日落拍摄，早休息</div>
+            <div class="tl-detail">Old Town + Rockin' Baja Lobster 午餐 → San Diego California Temple 外观 → La Jolla Cove → Sunset Cliffs 日落</div>
           </div>
         </div>
         <div class="tl-item">
@@ -981,7 +1029,7 @@
           <div class="tl-dot dot-stay"></div>
           <div class="tl-content">
             <div class="tl-title">San Diego Day 2 <span class="badge badge-stay">游玩</span></div>
-            <div class="tl-detail">Balboa Park 建筑与花园为主，控制博物馆数量；傍晚 Old Town 品尝当地餐食</div>
+            <div class="tl-detail">SeaWorld 主题日：以动物展区与表演为主，留足园内休息，离园后不追加正式景点</div>
           </div>
         </div>
         <div class="tl-item">
@@ -989,7 +1037,7 @@
           <div class="tl-dot dot-stay"></div>
           <div class="tl-content">
             <div class="tl-title">San Diego Day 3 <span class="badge badge-stay">游玩</span></div>
-            <div class="tl-detail">Coronado 海滩与 Hotel del 周边慢游；留出整理行李及在民宿做饭的时间</div>
+            <div class="tl-detail">San Diego Museum of Art + Balboa Park → Seaport Village / USS Midway 外观 → Coronado → Little Italy 晚餐</div>
           </div>
         </div>
         <div class="tl-item">
@@ -997,7 +1045,7 @@
           <div class="tl-dot dot-travel"></div>
           <div class="tl-content">
             <div class="tl-title">SD → LA <span class="badge badge-travel">驾车 ~2h</span></div>
-            <div class="tl-detail">上午退房，下午抵达洛杉矶安顿</div>
+            <div class="tl-detail">上午完成化妆、早餐与装车，11:30 前后出发前往 Los Angeles；途中安排午餐与驾驶休息</div>
           </div>
         </div>
         <div class="tl-item">
@@ -1061,7 +1109,7 @@
           <div class="tl-dot dot-travel"></div>
           <div class="tl-content">
             <div class="tl-title">SF Day 2 上午 → 下午出发一号公路 <span class="badge badge-travel">Hwy 1</span></div>
-            <div class="tl-detail">上午留给 SF；午后沿海岸南行，优先住 Carmel 以减少夜间山路驾驶</div>
+            <div class="tl-detail">上午留给 SF；午后沿海岸南行，入住已订 Monterey 酒店</div>
           </div>
         </div>
         <div class="tl-item">
@@ -1069,7 +1117,7 @@
           <div class="tl-dot dot-travel"></div>
           <div class="tl-content">
             <div class="tl-title">一号公路 → Santa Barbara <span class="badge badge-travel">Hwy 1南行</span></div>
-            <div class="tl-detail">Carmel → Bixby Bridge → Big Sur → 象海豹观景台 → SB；整日景观驾驶，出发前复查 Highway 1</div>
+            <div class="tl-detail">Monterey → Bixby Bridge → Big Sur → 象海豹观景台 → SB；整日景观驾驶，出发前复查 Highway 1</div>
           </div>
         </div>
         <div class="tl-item">
@@ -1090,6 +1138,88 @@
         </div>
       </div>
     </div>
+
+    <div class="section-title">San Diego · 已确认精细日程</div>
+    <div class="alert alert-info">
+      <i class="ti ti-clock" aria-hidden="true"></i>
+      <div><strong>固定节奏：</strong>每天预留 1 小时化妆；父母国际航班抵达后的首日只做转场；每段通勤均另留停车、入场或休息缓冲。通勤里程与车程来自 2026-05-26 Google Maps 查询，出发当天以实时导航为准。</div>
+    </div>
+
+    <section class="day-board">
+      <div class="day-board-header">
+        <div class="day-board-title">05/29 周五 · LAX 接机与入住</div>
+        <div class="day-board-theme">长途转场日 · 不安排正式景点</div>
+      </div>
+      <div class="agenda">
+        <div class="agenda-head">时间</div><div class="agenda-head">安排</div><div class="agenda-head">通勤 / 缓冲</div>
+        <div class="agenda-time">16:30–18:15</div><div>父母抵达 LAX；入境、取行李、会合及补给</div><div class="agenda-note">国际航班后不压缩等待与休息时间</div>
+        <div class="agenda-time">18:15–18:45</div><div>简单晚餐或打包食物</div><div class="agenda-note">为夜间驾驶准备</div>
+        <div class="agenda-time">18:45–21:45</div><div>LAX → San Diego 酒店</div><div class="agenda-note">长途驾驶；途中至少一次休息</div>
+        <div class="agenda-time">21:45 后</div><div>入住 Hilton Garden Inn；洗漱休息</div><div class="agenda-note">不再追加行程</div>
+      </div>
+    </section>
+
+    <section class="day-board">
+      <div class="day-board-header">
+        <div class="day-board-title">05/30 周六 · Old Town、La Jolla 与日落</div>
+        <div class="day-board-theme">恢复型海岸日 · Sunset Cliffs 19:50 日落</div>
+      </div>
+      <div class="agenda">
+        <div class="agenda-head">时间</div><div class="agenda-head">安排</div><div class="agenda-head">通勤 / 缓冲</div>
+        <div class="agenda-time">08:45–10:25</div><div>起床整理、化妆 1 小时、早餐</div><div class="agenda-note">前一晚长途驾驶后不早起</div>
+        <div class="agenda-time">10:25–11:35</div><div>Old Town San Diego State Historic Park</div><div class="agenda-note">酒店 → Old Town / 餐厅：0.6 mi / 3 min；另留停车步行</div>
+        <div class="agenda-time">11:45–13:05</div><div>午餐：Rockin' Baja Lobster - Old Town</div><div class="agenda-note">3890 Twiggs St；周六官方营业 11:00–21:30</div>
+        <div class="agenda-time">13:05–14:15</div><div>San Diego California Temple 外观拍照</div><div class="agenda-note">餐厅 → Temple：9.7 mi / 12 min；预留停车、构图 40 min</div>
+        <div class="agenda-time">14:15–16:45</div><div>La Jolla Cove & Coast Walk</div><div class="agenda-note">Temple → La Jolla：5.2 mi / 14 min；海岸散步与拍照</div>
+        <div class="agenda-time">16:45–18:35</div><div>返回酒店休息/补妆；简单晚餐或轻食</div><div class="agenda-note">La Jolla → 酒店：10.4 mi / 16 min</div>
+        <div class="agenda-time">18:35–20:10</div><div>Sunset Cliffs 黄金时段与日落拍摄</div><div class="agenda-note">酒店 → Cliffs：7.0 mi / 17 min；提前到场找车位</div>
+        <div class="agenda-time">20:10 后</div><div>返回酒店、休息</div><div class="agenda-note">Cliffs → 酒店：7.0 mi / 15 min</div>
+      </div>
+    </section>
+
+    <section class="day-board">
+      <div class="day-board-header">
+        <div class="day-board-title">05/31 周日 · SeaWorld</div>
+        <div class="day-board-theme">动物与表演主题日 · 不叠加其他正式景点</div>
+      </div>
+      <div class="agenda">
+        <div class="agenda-head">时间</div><div class="agenda-head">安排</div><div class="agenda-head">通勤 / 缓冲</div>
+        <div class="agenda-time">08:30–10:10</div><div>起床、化妆 1 小时、早餐及入园准备</div><div class="agenda-note">携带水、防晒与轻便外套</div>
+        <div class="agenda-time">10:10–10:30</div><div>前往 SeaWorld 并停车入场</div><div class="agenda-note">酒店 → SeaWorld：2.9 mi / 7 min；其余为停车入园缓冲</div>
+        <div class="agenda-time">10:30–17:30</div><div>SeaWorld 动物展区与表演</div><div class="agenda-note">12:30–13:15 园内午餐；15:00–15:20 坐下休息；表演表临行复核</div>
+        <div class="agenda-time">离园后</div><div>返回酒店休息；19:00 附近晚餐</div><div class="agenda-note">SeaWorld → 酒店：4.3 mi / 8 min；不追加景点</div>
+      </div>
+    </section>
+
+    <section class="day-board">
+      <div class="day-board-header">
+        <div class="day-board-title">06/01 周一 · 艺术、公园、港湾与 Coronado</div>
+        <div class="day-board-theme">城市经典日 · Little Italy 收尾晚餐</div>
+      </div>
+      <div class="agenda">
+        <div class="agenda-head">时间</div><div class="agenda-head">安排</div><div class="agenda-head">通勤 / 缓冲</div>
+        <div class="agenda-time">08:30–10:15</div><div>起床、化妆 1 小时、早餐</div><div class="agenda-note">正式景点日前留足准备时间</div>
+        <div class="agenda-time">10:15–13:05</div><div>The San Diego Museum of Art + Balboa Park 建筑花园</div><div class="agenda-note">酒店 → 博物馆：4.9 mi / 11 min；博物馆周一 10:00–17:00 开放</div>
+        <div class="agenda-time">13:05–14:00</div><div>午餐与坐下休息</div><div class="agenda-note">公园内或去港湾途中用餐</div>
+        <div class="agenda-time">14:00–16:20</div><div>Seaport Village & Embarcadero；USS Midway 外观打卡</div><div class="agenda-note">博物馆 → Seaport：2.9 mi / 11 min；Seaport → Midway：0.6 mi / 3 min，亦可步行</div>
+        <div class="agenda-time">16:20–19:00</div><div>缓冲后前往 Coronado Beach & Hotel del Coronado</div><div class="agenda-note">Midway → Hotel del：8.3 mi / 21 min；沙滩与建筑外观拍照</div>
+        <div class="agenda-time">19:00–21:00</div><div>Little Italy 晚餐与街区散步</div><div class="agenda-note">Hotel del → Little Italy：6.7 mi / 15 min</div>
+        <div class="agenda-time">21:00 后</div><div>返回酒店、整理次日转场行李</div><div class="agenda-note">Little Italy → 酒店：4.8 mi / 8 min</div>
+      </div>
+    </section>
+
+    <section class="day-board">
+      <div class="day-board-header">
+        <div class="day-board-title">06/02 周二 · San Diego → Los Angeles</div>
+        <div class="day-board-theme">退房转场日</div>
+      </div>
+      <div class="agenda">
+        <div class="agenda-head">时间</div><div class="agenda-head">安排</div><div class="agenda-head">通勤 / 缓冲</div>
+        <div class="agenda-time">08:30–10:30</div><div>起床、化妆 1 小时、早餐及整理行李</div><div class="agenda-note">不添加 SD 正式景点</div>
+        <div class="agenda-time">10:30–11:30</div><div>装车与退房准备</div><div class="agenda-note">酒店最晚 12:00 退房</div>
+        <div class="agenda-time">11:30 前后</div><div>出发前往 Los Angeles</div><div class="agenda-note">途中按实时路况安排午餐和驾驶休息</div>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -1147,7 +1277,7 @@
             <td><span class="badge badge-stay">下午出发一号公路</span></td>
           </tr>
           <tr>
-            <td><strong>Carmel / Big Sur</strong></td>
+            <td><strong>Monterey / Big Sur</strong></td>
             <td>6/10夜</td>
             <td>6/11早</td>
             <td>—</td>
@@ -1202,14 +1332,14 @@
             <td>常用路线经 CA-120 / CA-99 / I-580；按实时路况选择</td>
           </tr>
           <tr>
-            <td>SF → Carmel (Hwy 1)</td>
+            <td>SF → Monterey (Hwy 1)</td>
             <td>~120 mi</td>
             <td>~2.5–3h（含停留更长）</td>
             <td>6/10下午</td>
-            <td>弯路多，建议午后出发，日落前到 Carmel 住宿</td>
+            <td>已订 Monterey 住宿；可沿海岸抵达，出发前复查路况</td>
           </tr>
           <tr>
-            <td>Carmel → Santa Barbara (Hwy 1)</td>
+            <td>Monterey → Santa Barbara (Hwy 1)</td>
             <td>~235 mi</td>
             <td>整日行程（含景点停留）</td>
             <td>6/11</td>
@@ -1225,7 +1355,7 @@
 <div id="page-attractions" class="page">
   <div class="page-header">
     <div class="page-title">Attraction Candidate Pool</div>
-    <div class="page-subtitle">景点筛选阶段 · 先勾选偏好，不生成最终名单或日程</div>
+    <div class="page-subtitle">San Diego 已定案 · 其他城市继续筛选</div>
   </div>
   <div style="padding: 24px 32px;">
     <div class="alert alert-info">
@@ -1236,9 +1366,9 @@
       <i class="ti ti-trees" aria-hidden="true"></i>
       <div><strong>Yosemite 核心目的地：</strong>候选项已特别扩充。NPS 截至 2026-05-21 的状态显示 Glacier Point Road 与 Tioga Road 均已开放；高地服务与道路状态仍需临近出发复查。</div>
     </div>
-    <div class="alert alert-warn">
-      <i class="ti ti-paw" aria-hidden="true"></i>
-      <div><strong>San Diego 已记录偏好：</strong>San Diego Zoo 与 Birch Aquarium at Scripps 中至少安排一个；Seaport Village 已作为你明确感兴趣的海湾散步候选加入。当前仍处于筛选阶段，暂不排具体日期。</div>
+    <div class="alert alert-success">
+      <i class="ti ti-circle-check" aria-hidden="true"></i>
+      <div><strong>San Diego 已确认：</strong>5/30 Old Town / Rockin' Baja Lobster / San Diego California Temple 外观 / La Jolla / Sunset Cliffs；5/31 SeaWorld；6/1 Balboa Park + SDMA / Seaport Village / USS Midway 外观 / Coronado / Little Italy。Zoo、Birch Aquarium、Torrey Pines 与 Cabrillo 本次不排。</div>
     </div>
     <div class="selection-bar">
       <div>已勾选 <span id="attraction-selection-count" class="selection-count">0</span> 个特别想去的候选</div>
@@ -1258,67 +1388,166 @@
   <div style="padding: 24px 32px;">
     <div class="alert alert-info">
       <i class="ti ti-info-circle" aria-hidden="true"></i>
-      <div>策略：以Airbnb为主（家庭共享空间+厨房），酒店每间房$200以内。父母一间，你们一间，需要两居室以上。</div>
+      <div>本页作为入住速查：显示地址、入住/退房时间、停车信息及英文入住凭证摘要。Airbnb 地址按你的要求显示在工作台中；如同步到公开 GitHub Pages，这些入住地址也会可见。</div>
+    </div>
+    <div class="alert alert-success">
+      <i class="ti ti-home-check" aria-hidden="true"></i>
+      <div><strong>已预订全部五处住宿：</strong>San Diego、Los Angeles、Groveland（Yosemite gateway）、San Francisco 及 Monterey 均已确认。已支付款项为 <strong>USD $1,798.90 + CNY ¥12,537.48</strong>；SF 与 Monterey 到店待付合计 <strong>USD $166.80</strong>。入住地址已集中展示；订单号、确认码、客人姓名与付款卡信息不写入公开工作台。</div>
     </div>
     <div class="hotel-card">
       <div class="hotel-icon"><i class="ti ti-home" aria-hidden="true"></i></div>
       <div class="hotel-info">
-        <div class="hotel-name">San Diego · Airbnb</div>
-        <div class="hotel-city">建议区域：La Jolla / Mission Beach / Gaslamp Quarter</div>
-        <div class="hotel-dates">5/29夜 – 6/2早 · 4晚 · 2卧室以上</div>
-        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+        <div class="hotel-name">San Diego · Hotel · Hilton Garden Inn San Diego Old Town/Sea World Area / 希尔顿花园酒店-圣迭戈老城/海洋世界区</div>
+        <div class="hotel-city">Old Town / SeaWorld Area</div>
+        <div class="hotel-details">
+          <div><strong>地址：</strong>4200 Taylor Street, San Diego, CA 92110</div>
+          <div><strong>入住 / 退房：</strong>5/29 15:00 后入住 · 6/2 12:00 前退房 · 4晚</div>
+          <div><strong>英文入住凭证：</strong>已核验 · 1间 / 4晚 · Room With Two Queen Beds-Hearing Accessible · 2 张 Queen Bed · 不含早餐</div>
+          <div><strong>停车（查询于 2026-05-25）：</strong>自助停车 USD $27.00/天；无代客泊车；可进出、带遮盖/安保并提供 EV charging。全程停 1 辆车参考 USD $108.00，未计入已支付账本。 <a href="https://www.hilton.com/en/hotels/sanswgi-hilton-garden-inn-san-diego-old-town-seaworld-area/hotel-info/" target="_blank" rel="noopener">Hilton 官方信息</a></div>
+          <div><strong>取消：</strong>5/28 23:59 前可免费取消（酒店当地时间）；此后或未入住，凭证列示取消费 CNY ¥5,709.46。</div>
+        </div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-teal">已预订 · 已支付</span></div>
       </div>
       <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
-        预算 ~$800–1200<br><span style="font-size: 11px; color: var(--text3);">含清洁费</span>
+        <strong>CNY ¥5,706.46 已在线付</strong><br><span style="font-size: 11px; color: var(--text3);">含税/费 · 积分抵扣 CNY ¥5.00</span><br><span style="font-size: 11px; color: var(--text3);">付款时间：截图未显示，待补充</span>
       </div>
     </div>
     <div class="hotel-card">
       <div class="hotel-icon"><i class="ti ti-home" aria-hidden="true"></i></div>
       <div class="hotel-info">
-        <div class="hotel-name">Los Angeles · Airbnb</div>
-        <div class="hotel-city">建议区域：West Hollywood / Silver Lake / Santa Monica</div>
-        <div class="hotel-dates">6/2夜 – 6/5早 · 3晚 · 6/3男友加入，需2卧室</div>
-        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+        <div class="hotel-name">Los Angeles · Airbnb · Apartment near Universal</div>
+        <div class="hotel-city">房东：Anna · 4 位客人</div>
+        <div class="hotel-details">
+          <div><strong>地址：</strong>5814 La Mirada Avenue, Los Angeles（按 Airbnb 入住页面记录）</div>
+          <div><strong>入住 / 退房：</strong>6/2 15:00 入住 · 6/5 11:00 退房 · 3晚</div>
+          <div><strong>停车：</strong>当前订单资料未记录停车方式/费用，需在 Airbnb 房源或入住说明中确认。</div>
+          <div><strong>取消：</strong>6/1 15:00 前可免费取消（房源当地时间）。</div>
+        </div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-teal">已预订 · 已支付</span></div>
       </div>
-      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
-        预算 ~$700–1000
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 225px;">
+        <strong>USD $777.35 已付</strong><br><span style="font-size: 11px; color: var(--text3);">2026-05-26 07:59:43 (GMT+8)</span>
       </div>
     </div>
     <div class="hotel-card">
       <div class="hotel-icon"><i class="ti ti-tree" aria-hidden="true"></i></div>
       <div class="hotel-info">
-        <div class="hotel-name">Yosemite · 园内/园外住宿</div>
-        <div class="hotel-city">优先：Yosemite Valley Lodge / Curry Village 小屋 / El Portal Airbnb</div>
-        <div class="hotel-dates">6/5夜 – 6/8早 · 3晚</div>
-        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订 · 极难预订，越早越好</span></div>
+        <div class="hotel-name">Groveland / Yosemite · Airbnb · 2 story tree level living, gateway to Yosemite</div>
+        <div class="hotel-city">房东：Krystall &amp; Jason · 4 位客人 · 键盘锁自助入住</div>
+        <div class="hotel-details">
+          <div><strong>地址：</strong>19266 Ferretti Road, Groveland（按 Airbnb 入住页面记录）</div>
+          <div><strong>入住 / 退房：</strong>6/5 15:00 入住 · 6/8 10:00 退房 · 3晚</div>
+          <div><strong>停车：</strong>当前订单资料未记录停车方式/费用，需在 Airbnb 房源或入住说明中确认。</div>
+          <div><strong>取消：</strong>页面显示 24 小时内可免费取消；5/29 15:00 前取消可获部分退款。</div>
+        </div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-teal">已预订 · 已支付</span></div>
       </div>
-      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
-        预算 ~$600–900
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 225px;">
+        <strong>USD $1,021.55 已付</strong><br><span style="font-size: 11px; color: var(--text3);">2026-05-26 08:00:27 (GMT+8)</span>
       </div>
     </div>
     <div class="hotel-card">
       <div class="hotel-icon"><i class="ti ti-building" aria-hidden="true"></i></div>
       <div class="hotel-info">
-        <div class="hotel-name">San Francisco · Airbnb</div>
-        <div class="hotel-city">建议区域：Marina / Pacific Heights / Nob Hill</div>
-        <div class="hotel-dates">6/8夜 – 6/10下午 · 2晚</div>
-        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+        <div class="hotel-name">San Francisco · Hotel · Riu Plaza Fisherman's Wharf / 渔人码头悦宜湾广场酒店</div>
+        <div class="hotel-city">Fisherman's Wharf 区域</div>
+        <div class="hotel-details">
+          <div><strong>地址：</strong>2500 Mason Street, San Francisco, CA 94133</div>
+          <div><strong>入住 / 退房：</strong>6/8 15:00–00:00（次日）入住 · 6/10 12:00 前退房 · 2晚</div>
+          <div><strong>英文入住凭证：</strong>已核验 · 2间 / 2晚 · Deluxe Two Queen Room · 6/9、6/10 均含 2 间房合计 4 份早餐</div>
+          <div><strong>停车（查询于 2026-05-25）：</strong>渠道告示显示最低 USD $53.00 + 税/车/晚，入住或退房时收取，费用可能变动；全程停 1 辆车参考最低 USD $106.00 + 税，未计入已支付账本。 <a href="https://www.riu.com/en/hotel/usa/san-francisco/hotel-riu-plaza-fishermans-wharf/" target="_blank" rel="noopener">酒店官网</a> · <a href="https://www.funjet.com/resorts/riu-plaza-fishermans-wharf/" target="_blank" rel="noopener">停车告示来源</a></div>
+          <div><strong>取消：</strong>6/4 23:59 前可免费取消（酒店当地时间）；此后或未入住，凭证列示取消费 CNY ¥2,729.50。</div>
+        </div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-teal">已预订 · 部分款项待到店支付</span></div>
       </div>
-      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
-        预算 ~$500–700
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 235px;">
+        <strong>CNY ¥5,390.00 已在线付</strong><br><span style="font-size: 11px; color: var(--text3);">积分抵扣 CNY ¥5.00 · 付款时间：截图未显示，待补充</span><br><span style="font-size: 11px; color: var(--text3);">到店待付 USD $164.80（页面约 CNY ¥1,117.92）</span>
       </div>
     </div>
     <div class="hotel-card">
       <div class="hotel-icon"><i class="ti ti-waves" aria-hidden="true"></i></div>
       <div class="hotel-info">
-        <div class="hotel-name">Carmel-by-the-Sea · 酒店</div>
-        <div class="hotel-city">建议：Carmel Mission Inn / Hofsas House / La Playa Carmel</div>
-        <div class="hotel-dates">6/10夜 – 6/11早 · 1晚</div>
-        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-warn">未预订</span></div>
+        <div class="hotel-name">Monterey · Hotel · Travelodge by Wyndham Monterey Bay / 蒙特利湾温德姆旅游旅馆</div>
+        <div class="hotel-city">Monterey Bay / North Fremont Street</div>
+        <div class="hotel-details">
+          <div><strong>地址：</strong>2030 N Fremont St, Monterey, CA 93940</div>
+          <div><strong>入住 / 退房：</strong>6/10 15:00 后入住 · 6/11 11:00 前退房 · 1晚</div>
+          <div><strong>停车：</strong>订单截图未展示停车方式或费用，入住前需向酒店确认。</div>
+          <div><strong>取消：</strong>6/9 16:00 前可免费取消（酒店当地时间），此后不可取消或修改。</div>
+        </div>
+        <div class="hotel-status" style="margin-top: 6px;"><span class="badge badge-teal">已预订 · 部分款项待到店支付</span></div>
       </div>
-      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 100px;">
-        预算 ~$300–500<br><span style="font-size: 11px; color: var(--text3);">两间房</span>
+      <div style="font-size: 13px; color: var(--text2); text-align: right; min-width: 235px;">
+        <strong>CNY ¥1,441.02 已在线付</strong><br><span style="font-size: 11px; color: var(--text3);">含部分税/费 · 积分抵扣 CNY ¥5.00</span><br><span style="font-size: 11px; color: var(--text3);">到店待付 USD $2.00（页面约 CNY ¥13.58） · 付款时间待补充</span>
       </div>
+    </div>
+    <div class="card" style="margin-top: 18px;">
+      <div class="card-title"><i class="ti ti-file-description" aria-hidden="true"></i> 英文酒店入住凭证（已核验）</div>
+      <div class="alert alert-info" style="margin-bottom: 12px;">
+        <i class="ti ti-lock" aria-hidden="true"></i>
+        <div>两份原始 PDF 含订单号、确认号及客人姓名，保留在本机原文件中，不作为公开页面附件上传；下表记录出行需要的凭证内容。</div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr><th>住宿</th><th>凭证文件</th><th>已提取的入住内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>San Diego Hotel</td>
+            <td>English check-in voucher (for visa application).pdf</td>
+            <td>1 间 / 4 晚；Two Queen Beds-Hearing Accessible；不含早餐；在线已付 CNY ¥5,706.46；5/28 23:59 前免费取消。</td>
+          </tr>
+          <tr>
+            <td>San Francisco Hotel</td>
+            <td>English check-in voucher (for visa application) (1).pdf</td>
+            <td>2 间 / 2 晚；Deluxe Two Queen Room；6/9 和 6/10 每日合计 4 份早餐；在线已付 CNY ¥5,390.00，到店另付 USD $164.80；6/4 23:59 前免费取消。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top: 18px;">
+      <div class="card-title"><i class="ti ti-receipt" aria-hidden="true"></i> 已支付住宿款项明细</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>住宿</th><th>款项构成</th><th>付款时间</th><th>已付总额</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>San Diego · 5/29–6/2</td>
+            <td>在线已付：CNY ¥5,706.46（含税/费）<br>其中凭证列示：住宿税 CNY ¥633.50；度假村费 CNY ¥109.07<br>积分抵扣：CNY ¥5.00</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥5,706.46</strong></td>
+          </tr>
+          <tr>
+            <td>Los Angeles · 6/2–6/5</td>
+            <td>住宿：USD $224.40 × 3晚 = USD $673.20<br>税费和平台服务费：USD $104.15</td>
+            <td>2026-05-26 07:59:43 (GMT+8)</td>
+            <td><strong>USD $777.35</strong></td>
+          </tr>
+          <tr>
+            <td>Groveland / Yosemite · 6/5–6/8</td>
+            <td>住宿：USD $270.00 × 3晚 = USD $810.00<br>Airbnb 服务费：USD $114.35<br>税费：USD $97.20</td>
+            <td>2026-05-26 08:00:27 (GMT+8)</td>
+            <td><strong>USD $1,021.55</strong></td>
+          </tr>
+          <tr>
+            <td>San Francisco · 6/8–6/10</td>
+            <td>在线已付：CNY ¥5,390.00（含部分税/费）<br>其中凭证列示：住宿税 CNY ¥649.56；旅游费 CNY ¥171.68<br>积分抵扣：CNY ¥5.00<br>到店待付：USD $164.80（其他附加费 USD $24.80；度假村费 USD $140.00；未计入已支付）</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥5,390.00</strong></td>
+          </tr>
+          <tr>
+            <td>Monterey · 6/10–6/11</td>
+            <td>在线已付：CNY ¥1,441.02（含部分税/费）<br>积分抵扣：CNY ¥5.00<br>到店待付：USD $2.00（页面约 CNY ¥13.58，未计入已支付）</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥1,441.02</strong></td>
+          </tr>
+          <tr>
+            <td colspan="3"><strong>累计已支付（按原始币种）</strong></td>
+            <td><strong>USD $1,798.90 + CNY ¥12,537.48</strong></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -1332,7 +1561,7 @@
   <div style="padding: 24px 32px;">
     <div class="alert alert-info">
       <i class="ti ti-tools-kitchen-2" aria-hidden="true"></i>
-      <div><strong>已确认偏好：</strong>愿意大胆尝试当地特色，同时在 Airbnb 简单烹饪。建议每个停留点首晚采购早餐、水果与公路零食，外食集中在最有地区特色的 1–2 餐。</div>
+      <div><strong>已确认偏好：</strong>愿意大胆尝试当地特色。San Diego 酒店不含早餐；5/30 Old Town 午餐与 6/1 Little Italy 晚餐已经纳入精细行程，其余时段以不影响观光节奏的轻便餐为主。</div>
     </div>
     <div class="card">
       <table class="data-table">
@@ -1342,9 +1571,9 @@
         <tbody>
           <tr>
             <td><strong>San Diego</strong></td>
-            <td>海鲜 taco / 加州墨西哥菜；Old Town 晚餐</td>
-            <td>5/30 上午采购早餐、咖啡、水果</td>
-            <td>时差恢复期不预订过晚餐位</td>
+            <td><strong>5/30 午餐：</strong>Rockin' Baja Lobster - Old Town<br>3890 Twiggs Street · 墨西哥海鲜 / Baja 风味<br><strong>6/1 晚餐：</strong>Little Italy 区域待择餐厅</td>
+            <td>酒店不含早餐；随车准备水、水果与日落前轻食</td>
+            <td>Rockin' Baja 周六官方营业 11:00–21:30；已排 11:45–13:05</td>
           </tr>
           <tr>
             <td><strong>Los Angeles</strong></td>
@@ -1365,8 +1594,8 @@
             <td>如选 Alcatraz，渡船日前后就近用餐</td>
           </tr>
           <tr>
-            <td><strong>Carmel / Highway 1</strong></td>
-            <td>Carmel 早晚餐；公路日带简便午餐</td>
+            <td><strong>Monterey / Highway 1</strong></td>
+            <td>Monterey / Carmel 餐饮；公路日带简便午餐</td>
             <td>出发前备水与零食并补满油</td>
             <td>不为餐位牺牲白天行车与观景时间</td>
           </tr>
@@ -1397,11 +1626,46 @@
             <td>2026 不使用 timed reservation system；确认成员居民身份与通行证以计算入园费</td>
           </tr>
           <tr>
-            <td>Yosemite 园内住宿</td>
-            <td>Yosemite</td>
-            <td><span class="badge badge-warn">极紧急</span></td>
-            <td><span class="badge badge-warn">未完成</span></td>
-            <td>提前5个月开放，极难抢</td>
+            <td>San Diego 酒店</td>
+            <td>San Diego</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>Hilton Garden Inn San Diego Old Town/Sea World Area；5/29 入住 – 6/2 离店；已在线付 CNY ¥5,706.46（另有积分抵扣 CNY ¥5.00）；5/28 23:59 前可免费取消（酒店当地时间）</td>
+          </tr>
+          <tr>
+            <td>SeaWorld 单日门票与表演安排</td>
+            <td>San Diego</td>
+            <td><span class="badge badge-stay">行程已定</span></td>
+            <td><span class="badge badge-warn">门票待确认</span></td>
+            <td>计划于 5/31 游玩，以动物展区与表演为主；购票前及出发日前按官方日历复核开放时间、表演时刻与设施状态</td>
+          </tr>
+          <tr>
+            <td>Los Angeles Airbnb</td>
+            <td>Los Angeles</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>Apartment near Universal；6/2 15:00 入住 – 6/5 11:00 退房；已付 USD $777.35</td>
+          </tr>
+          <tr>
+            <td>Groveland / Yosemite Airbnb</td>
+            <td>Yosemite gateway</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>2 story tree level living, gateway to Yosemite；6/5 15:00 入住 – 6/8 10:00 退房；已付 USD $1,021.55</td>
+          </tr>
+          <tr>
+            <td>San Francisco 酒店</td>
+            <td>San Francisco</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>Riu Plaza Fisherman's Wharf；6/8 入住 – 6/10 离店；已在线付 CNY ¥5,390.00（另有积分抵扣 CNY ¥5.00），到店另付 USD $164.80</td>
+          </tr>
+          <tr>
+            <td>Monterey 酒店</td>
+            <td>Monterey</td>
+            <td><span class="badge badge-stay">已确认</span></td>
+            <td><span class="badge badge-teal">已预订</span></td>
+            <td>Travelodge by Wyndham Monterey Bay；6/10 入住 – 6/11 离店；已在线付 CNY ¥1,441.02（另有积分抵扣 CNY ¥5.00），到店另付 USD $2.00；6/9 16:00 前可免费取消（酒店当地时间）</td>
           </tr>
           <tr>
             <td>Hearst Castle 导览</td>
@@ -1441,14 +1705,68 @@
 <div id="page-maps" class="page">
   <div class="page-header">
     <div class="page-title">Google Maps</div>
-    <div class="page-subtitle">地图收藏 & 导航链接</div>
+    <div class="page-subtitle">San Diego 逐日路线图 · 地图截图 & 实时导航入口</div>
   </div>
   <div style="padding: 24px 32px;">
+    <div class="alert alert-info">
+      <i class="ti ti-route" aria-hidden="true"></i>
+      <div><strong>San Diego 已生成路线图：</strong>下方图片来自 2026-05-26 查询的 Google Maps 行车路线，紫色线路按每日景点顺序串联。图中驾驶总时长不包含用餐、拍照、停车找位和入场缓冲；出发当天请点击实时路线刷新路况。</div>
+    </div>
+    <div class="map-gallery">
+      <article class="map-day-card">
+        <img class="map-day-image" src="assets/maps/sd-0530-google-maps.jpg" alt="Google Maps 路线图：5月30日 Old Town、San Diego California Temple、La Jolla Cove 与 Sunset Cliffs">
+        <div class="map-day-body">
+          <div class="map-day-title">05/30 周六 · 海岸与日落路线</div>
+          <div class="map-day-summary">地图汇总约 39.7 mi / 1 hr 16 min 驾驶；酒店休息后再次出发看日落。</div>
+          <a href="https://www.google.com/maps/dir/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/Rockin%27+Baja+Lobster+-+Old+Town,+3890+Twiggs+St,+San+Diego,+CA/San+Diego+California+Temple,+7474+Charmant+Dr,+San+Diego,+CA/La+Jolla+Cove,+1100+Coast+Blvd,+La+Jolla,+CA/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/Sunset+Cliffs+Natural+Park,+Ladera+St,+San+Diego,+CA/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/data=!4m2!4m1!3e0" target="_blank" rel="noopener">打开当天 Google Maps 路线</a>
+        </div>
+      </article>
+      <article class="map-day-card">
+        <img class="map-day-image" src="assets/maps/sd-0531-google-maps.jpg" alt="Google Maps 路线图：5月31日酒店与 SeaWorld 往返路线">
+        <div class="map-day-body">
+          <div class="map-day-title">05/31 周日 · SeaWorld 往返</div>
+          <div class="map-day-summary">地图汇总约 7.2 mi / 15 min 驾驶；另为停车与入场留 13 分钟以上。</div>
+          <a href="https://www.google.com/maps/dir/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/SeaWorld+San+Diego,+500+Sea+World+Dr,+San+Diego,+CA/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/data=!4m2!4m1!3e0" target="_blank" rel="noopener">打开当天 Google Maps 路线</a>
+        </div>
+      </article>
+      <article class="map-day-card">
+        <img class="map-day-image" src="assets/maps/sd-0601-google-maps.jpg" alt="Google Maps 路线图：6月1日 Balboa Park、Seaport Village、USS Midway、Coronado 与 Little Italy">
+        <div class="map-day-body">
+          <div class="map-day-title">06/01 周一 · 城市经典路线</div>
+          <div class="map-day-summary">地图汇总约 26.0 mi / 1 hr 11 min 驾驶；Seaport 至 Midway 也可步行衔接。</div>
+          <a href="https://www.google.com/maps/dir/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/The+San+Diego+Museum+of+Art,+1450+El+Prado,+San+Diego,+CA/Seaport+Village,+849+W+Harbor+Dr,+San+Diego,+CA/USS+Midway+Museum,+910+N+Harbor+Dr,+San+Diego,+CA/Hotel+del+Coronado,+1500+Orange+Ave,+Coronado,+CA/Little+Italy,+San+Diego,+CA/Hilton+Garden+Inn+San+Diego+Old+Town%2FSeaWorld+Area,+4200+Taylor+St,+San+Diego,+CA/data=!4m2!4m1!3e0" target="_blank" rel="noopener">打开当天 Google Maps 路线</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="card route-legs">
+      <div class="card-title"><i class="ti ti-car" aria-hidden="true"></i> San Diego 每日逐段车程</div>
+      <table class="data-table">
+        <thead><tr><th>日期</th><th>从 → 到</th><th>Google Maps 预计行驶</th><th>行程缓冲</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="6">5/30</td><td>酒店 → Rockin' Baja / Old Town</td><td>0.6 mi / 3 min</td><td>停车与步行已纳入开始前缓冲</td></tr>
+          <tr><td>Rockin' Baja → San Diego California Temple</td><td>9.7 mi / 12 min</td><td>到达后 40 min 外观拍照</td></tr>
+          <tr><td>Temple → La Jolla Cove</td><td>5.2 mi / 14 min</td><td>海岸停车与散步预留</td></tr>
+          <tr><td>La Jolla Cove → 酒店</td><td>10.4 mi / 16 min</td><td>返回后休息/补妆</td></tr>
+          <tr><td>酒店 → Sunset Cliffs</td><td>7.0 mi / 17 min</td><td>日落前提前到场</td></tr>
+          <tr><td>Sunset Cliffs → 酒店</td><td>7.0 mi / 15 min</td><td>拍摄结束直接休息</td></tr>
+          <tr><td rowspan="2">5/31</td><td>酒店 → SeaWorld</td><td>2.9 mi / 7 min</td><td>另留停车与入园时间</td></tr>
+          <tr><td>SeaWorld → 酒店</td><td>4.3 mi / 8 min</td><td>离园后不追加景点</td></tr>
+          <tr><td rowspan="6">6/1</td><td>酒店 → The San Diego Museum of Art</td><td>4.9 mi / 11 min</td><td>停车入馆缓冲</td></tr>
+          <tr><td>SDMA → Seaport Village</td><td>2.9 mi / 11 min</td><td>午餐后移动</td></tr>
+          <tr><td>Seaport Village → USS Midway</td><td>0.6 mi / 3 min</td><td>可改为沿海湾步行</td></tr>
+          <tr><td>USS Midway → Hotel del Coronado</td><td>8.3 mi / 21 min</td><td>过桥与停车缓冲</td></tr>
+          <tr><td>Hotel del Coronado → Little Italy</td><td>6.7 mi / 15 min</td><td>晚餐入座缓冲</td></tr>
+          <tr><td>Little Italy → 酒店</td><td>4.8 mi / 8 min</td><td>返回后整理行李</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="alert alert-warn">
       <i class="ti ti-map-pin" aria-hidden="true"></i>
-      <div>下方为分段导航入口。Highway 1 山体滑坡或天气可能临时改变道路状态，6/10 出发前必须再次查看 Caltrans 路况，并准备 US-101 备选路线。</div>
+      <div><strong>后续跨城导航：</strong>Highway 1 山体滑坡或天气可能临时改变道路状态，6/10 出发前必须再次查看 Caltrans 路况，并准备 US-101 备选路线。</div>
     </div>
     <div class="card">
+      <div class="card-title"><i class="ti ti-road" aria-hidden="true"></i> 跨城市导航入口</div>
       <table class="data-table">
         <thead>
           <tr><th>日期</th><th>导航段</th><th>重点停靠</th><th>行动</th></tr>
@@ -1480,15 +1798,15 @@
           </tr>
           <tr>
             <td>6/10</td>
-            <td>San Francisco → Carmel</td>
+            <td>San Francisco → Monterey</td>
             <td>Half Moon Bay / 17-Mile Drive 可择一</td>
-            <td><a href="https://www.google.com/maps/dir/?api=1&amp;origin=San+Francisco%2C+CA&amp;destination=Carmel-by-the-Sea%2C+CA&amp;waypoints=Half+Moon+Bay%2C+CA" target="_blank">打开路线</a></td>
+            <td><a href="https://www.google.com/maps/dir/?api=1&amp;origin=San+Francisco%2C+CA&amp;destination=Travelodge+by+Wyndham+Monterey+Bay%2C+Monterey%2C+CA&amp;waypoints=Half+Moon+Bay%2C+CA" target="_blank">打开路线</a></td>
           </tr>
           <tr>
             <td>6/11</td>
-            <td>Carmel → Santa Barbara via Highway 1</td>
+            <td>Monterey → Santa Barbara via Highway 1</td>
             <td>Bixby Bridge / Big Sur / Piedras Blancas</td>
-            <td><a href="https://www.google.com/maps/dir/?api=1&amp;origin=Carmel-by-the-Sea%2C+CA&amp;destination=Santa+Barbara%2C+CA&amp;waypoints=Bixby+Creek+Bridge%7CPiedras+Blancas+Elephant+Seal+Vista+Point" target="_blank">打开路线</a></td>
+            <td><a href="https://www.google.com/maps/dir/?api=1&amp;origin=Travelodge+by+Wyndham+Monterey+Bay%2C+Monterey%2C+CA&amp;destination=Santa+Barbara%2C+CA&amp;waypoints=Bixby+Creek+Bridge%7CPiedras+Blancas+Elephant+Seal+Vista+Point" target="_blank">打开路线</a></td>
           </tr>
         </tbody>
       </table>
@@ -1619,73 +1937,89 @@
 <div id="page-budget" class="page">
   <div class="page-header">
     <div class="page-title">Budget Tracker</div>
-    <div class="page-subtitle">总预算 $10,000 · 四人</div>
+    <div class="page-subtitle">总预算 USD $10,000 · 仅记录实际已支付款项</div>
   </div>
   <div style="padding: 24px 32px;">
     <div class="stat-grid">
       <div class="stat-card">
         <div class="stat-label">总预算</div>
-        <div class="stat-value">$10,000</div>
+        <div class="stat-value">USD $10,000</div>
         <div class="stat-sub">四人合计</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">已预估支出</div>
-        <div class="stat-value">$6,900</div>
-        <div class="stat-sub">占预算 69%</div>
+        <div class="stat-label">累计已支付</div>
+        <div class="stat-value">USD $1,798.90<br>+ CNY ¥12,537.48</div>
+        <div class="stat-sub">原币记录 · 折算约占 36.47%</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">剩余缓冲</div>
-        <div class="stat-value">$3,100</div>
-        <div class="stat-sub">弹性空间</div>
+        <div class="stat-label">总预算剩余</div>
+        <div class="stat-value">约 USD $6,353.07</div>
+        <div class="stat-sub">按已支付款项参考折算</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">人均</div>
-        <div class="stat-value">$2,500</div>
-        <div class="stat-sub">16天含典礼</div>
+        <div class="stat-label">已记录款项</div>
+        <div class="stat-value">5 笔</div>
+        <div class="stat-sub">住宿在线付款</div>
       </div>
-    </div>
-
-    <div class="alert alert-warn">
-      <i class="ti ti-alert-triangle" aria-hidden="true"></i>
-      <div><strong>预算待确认：</strong>若同行者中有 16 岁以上非美国居民且没有可覆盖的有效通行证，Yosemite 将按人额外收取 $100。确认身份/通行证后，把差额计入活动预算或缓冲金。</div>
     </div>
 
     <div class="card">
-      <div class="card-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> 预算分类</div>
-      <div class="budget-category">
-        <div class="budget-cat-label"><i class="ti ti-home" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 住宿（Airbnb+酒店）</div>
-        <div class="budget-cat-amount">$3,500</div>
-        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div></div>
-      </div>
-      <div class="budget-category">
-        <div class="budget-cat-label"><i class="ti ti-tools-kitchen-2" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 餐饮（外食+自炊）</div>
-        <div class="budget-cat-amount">$1,500</div>
-        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill amber" style="width:15%"></div></div></div>
-      </div>
-      <div class="budget-category">
-        <div class="budget-cat-label"><i class="ti ti-gas-station" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 油费 & 停车</div>
-        <div class="budget-cat-amount">$600</div>
-        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill green" style="width:6%"></div></div></div>
-      </div>
-      <div class="budget-category">
-        <div class="budget-cat-label"><i class="ti ti-ticket" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 景点门票 & 活动</div>
-        <div class="budget-cat-amount">$800</div>
-        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill green" style="width:8%"></div></div></div>
-      </div>
-      <div class="budget-category">
-        <div class="budget-cat-label"><i class="ti ti-shopping-bag" style="font-size:14px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 购物 & 纪念品</div>
-        <div class="budget-cat-amount">$500</div>
-        <div class="budget-cat-bar"><div class="progress-bar"><div class="progress-fill" style="width:5%"></div></div></div>
-      </div>
+      <div class="card-title"><i class="ti ti-receipt" aria-hidden="true"></i> 累计已支付账本</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>款项</th><th>实际构成</th><th>付款时间</th><th>本笔金额</th><th>累计已支付</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>San Diego Hotel<br>Hilton Garden Inn San Diego Old Town/Sea World Area · 5/29–6/2 · 4晚</td>
+            <td>在线已付 CNY ¥5,706.46（含税/费）<br>积分抵扣 CNY ¥5.00</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥5,706.46</strong></td>
+            <td><strong>CNY ¥5,706.46</strong></td>
+          </tr>
+          <tr>
+            <td>Los Angeles Airbnb<br>6/2–6/5 · 3晚</td>
+            <td>住宿 USD $673.20<br>税费和平台服务费 USD $104.15</td>
+            <td>2026-05-26 07:59:43 (GMT+8)</td>
+            <td><strong>USD $777.35</strong></td>
+            <td><strong>USD $777.35<br>+ CNY ¥5,706.46</strong></td>
+          </tr>
+          <tr>
+            <td>Groveland / Yosemite Airbnb<br>6/5–6/8 · 3晚</td>
+            <td>住宿 USD $810.00<br>Airbnb 服务费 USD $114.35<br>税费 USD $97.20</td>
+            <td>2026-05-26 08:00:27 (GMT+8)</td>
+            <td><strong>USD $1,021.55</strong></td>
+            <td><strong>USD $1,798.90<br>+ CNY ¥5,706.46</strong></td>
+          </tr>
+          <tr>
+            <td>San Francisco Hotel<br>Riu Plaza Fisherman's Wharf · 6/8–6/10 · 2晚</td>
+            <td>在线已付 CNY ¥5,390.00（含部分税/费）<br>积分抵扣 CNY ¥5.00<br>到店待付 USD $164.80（页面约 CNY ¥1,117.92，未计入累计）</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥5,390.00</strong></td>
+            <td><strong>USD $1,798.90<br>+ CNY ¥11,096.46</strong></td>
+          </tr>
+          <tr>
+            <td>Monterey Hotel<br>Travelodge by Wyndham Monterey Bay · 6/10–6/11 · 1晚</td>
+            <td>在线已付 CNY ¥1,441.02（含部分税/费）<br>积分抵扣 CNY ¥5.00<br>到店待付 USD $2.00（页面约 CNY ¥13.58，未计入累计）</td>
+            <td>截图未显示，待补充</td>
+            <td><strong>CNY ¥1,441.02</strong></td>
+            <td><strong>USD $1,798.90<br>+ CNY ¥12,537.48</strong></td>
+          </tr>
+          <tr>
+            <td colspan="4"><strong>累计已支付（原币）</strong></td>
+            <td><strong>USD $1,798.90<br>+ CNY ¥12,537.48</strong></td>
+          </tr>
+        </tbody>
+      </table>
       <div style="margin-top: 16px; padding-top: 12px; border-top: 0.5px solid var(--border);">
         <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
-          <span style="color: var(--text2);">预估总支出</span>
-          <span style="font-weight: 500;">$6,900 / $10,000</span>
+          <span style="color: var(--text2);">总预算剩余</span>
+          <span style="font-weight: 500;">约 USD $6,353.07</span>
         </div>
         <div class="progress-bar" style="height: 10px; border-radius: 5px;">
-          <div class="progress-fill" style="width: 69%;"></div>
+          <div class="progress-fill" style="width: 36.47%;"></div>
         </div>
-        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">剩余 $3,100 作为弹性缓冲（额外餐饮、停车、临时活动等）</div>
+        <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">累计已支付原币：USD $1,798.90 + CNY ¥12,537.48。为显示 USD 预算余额，既有携程人民币酒店付款沿用 SF 订单参考比例（CNY ¥1,117.92 ≈ USD $164.80），Monterey 本笔按订单页面参考比例（CNY ¥13.58 ≈ USD $2.00）折算；已付折算合计约 USD $3,646.93。SF 与 Monterey 到店待付合计 USD $166.80 尚未计入累计。</div>
       </div>
     </div>
   </div>
@@ -1701,7 +2035,6 @@
     <div class="section-title">🔴 紧急（越快越好）</div>
     <div class="card">
       <ul class="checklist">
-        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>预订 Yosemite 园内/近郊住宿</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Curry Village / Yosemite Valley Lodge / El Portal；日期已临近，立即确认库存与取消条款</div></div></li>
         <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>安排男友抵达接机衔接（6/3 11:29，LAX）</div><div style="font-size:11px;color:var(--text2);margin-top:2px">航班已预订：ORD 08:51 → LAX 11:29</div></div></li>
         <li><div class="check-box" onclick="toggleCheck(this)"></div><div><div>确认 Yosemite 入园费与同行者居民/通行证状态</div><div style="font-size:11px;color:var(--text2);margin-top:2px">2026 年非美国居民（16+）可能涉及每人 $100 附加费</div></div></li>
       </ul>
@@ -1710,10 +2043,7 @@
     <div class="section-title">🟡 尽快（出发前2–4周）</div>
     <div class="card">
       <ul class="checklist">
-        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Diego Airbnb（2卧室，5/29–6/2，4晚）</li>
-        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Los Angeles Airbnb（2卧室，6/2–6/5，3晚）</li>
-        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 San Francisco Airbnb（2卧室，6/8–6/10，2晚）</li>
-        <li><div class="check-box" onclick="toggleCheck(this)"></div>预订 Carmel 酒店（两间，6/10–6/11，1晚）</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>确认并购买 SeaWorld 5/31 门票；保存当日表演时刻表</li>
         <li><div class="check-box" onclick="toggleCheck(this)"></div>预约 Hearst Castle 导览（hearstcastle.org）</li>
       </ul>
     </div>
